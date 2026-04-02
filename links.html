@@ -45,19 +45,29 @@
     margin-bottom: 2.25rem;
   }
 
-  .avatar {
-    width: 84px;
-    height: 84px;
+  .avatar-ring {
+    width: 92px;
+    height: 92px;
     border-radius: 50%;
-    background: #1a1a1a;
-    border: 2px solid #C50000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    font-weight: 800;
-    color: #C50000;
-    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #9147ff, #00c853);
+    padding: 3px;
+    flex-shrink: 0;
+  }
+
+  .avatar {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+  }
+
+  .avatar img {
+    width: 86px;
+    height: 86px;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
   }
 
   .name {
