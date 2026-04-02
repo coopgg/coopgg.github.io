@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cCoopGG — Stream Commands</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0e0e10; color: #efeff1; min-height: 100vh; }
+  header { background: #18181b; border-bottom: 1px solid #26262c; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; }
+  header img { width: 48px; height: 48px; border-radius: 50%; background: #9147ff; }
+  header h1 { font-size: 1.4rem; font-weight: 600; color: #efeff1; }
+  header span { font-size: 0.85rem; color: #adadb8; }
+  .live-badge { background: #eb0400; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.05em; }
+  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #9147ff; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #26262c; }
+  .section-title:first-child { margin-top: 0; }
+  .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
+  .cmd { background: #18181b; border: 1px solid #26262c; border-radius: 8px; padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
+  .cmd:hover { border-color: #9147ff44; }
+  .cmd-name { font-family: 'Courier New', monospace; font-size: 0.9rem; font-weight: 600; color: #9147ff; }
+  .cmd-desc { font-size: 0.82rem; color: #adadb8; line-height: 1.4; }
+  .cmd-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tag-mod { background: #1a1a2e; color: #9147ff; border: 1px solid #9147ff44; }
+  .tag-ai { background: #1a2e1a; color: #00c853; border: 1px solid #00c85344; }
+  .tag-game { background: #2e1a1a; color: #ff6b35; border: 1px solid #ff6b3544; }
+  footer { text-align: center; padding: 2rem; color: #adadb8; font-size: 0.8rem; border-top: 1px solid #26262c; margin-top: 2rem; }
+  footer a { color: #9147ff; text-decoration: none; }
+</style>
+</head>
+<body>
+<header>
+  <div style="width:48px;height:48px;border-radius:50%;background:#9147ff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;">C</div>
+  <div>
+    <h1>cCoopGG</h1>
+    <span>Stream Commands &amp; Info</span>
+  </div>
+</header>
+<main>
+
+  <div class="section-title">AI Commands</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!lurk</span><span class="cmd-desc">Let the stream know you're lurking. The bot sends you off in style.</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">!so @user</span><span class="cmd-desc">Give an AI-generated shoutout to another streamer.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">@CoopGPT</span><span class="cmd-desc">Mention the bot in chat and it will respond to you directly.</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">!8ball [question]</span><span class="cmd-desc">Ask the magic 8ball a question. It knows all.</span><span class="cmd-tag tag-ai">AI</span></div>
+  </div>
+
+  <div class="section-title">Chat Games</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!trivia</span><span class="cmd-desc">Start an AI trivia round. Answer A, B, C, or D. First correct wins more coins.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!riddle</span><span class="cmd-desc">Start a riddle. Fuzzy matching — close answers count!</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!cyoa</span><span class="cmd-desc">Start a chat-driven Choose Your Own Adventure. Vote 1, 2, or 3.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!quickmath</span><span class="cmd-desc">Solve a math problem before time runs out. Type the number answer.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!chuck / !chucknorris</span><span class="cmd-desc">Get a random Chuck Norris fact. RIP legend.</span></div>
+    <div class="cmd"><span class="cmd-name">!funfact</span><span class="cmd-desc">Get a random fun fact from the internet.</span></div>
+    <div class="cmd"><span class="cmd-name">!dadjoke</span><span class="cmd-desc">Get a random dad joke. You've been warned.</span></div>
+  </div>
+
+  <div class="section-title">Social Commands</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!cookie [@user]</span><span class="cmd-desc">Give someone a cookie. Omit the name for a random target.</span></div>
+    <div class="cmd"><span class="cmd-name">!slap [@user]</span><span class="cmd-desc">Slap someone with a random object.</span></div>
+    <div class="cmd"><span class="cmd-name">!hug [@user]</span><span class="cmd-desc">Wholesome hugs for everyone.</span></div>
+    <div class="cmd"><span class="cmd-name">!fart [@user]</span><span class="cmd-desc">You know what this does.</span></div>
+    <div class="cmd"><span class="cmd-name">!corner [@user]</span><span class="cmd-desc">Send someone to the corner.</span></div>
+    <div class="cmd"><span class="cmd-name">!ban [@user]</span><span class="cmd-desc">Fake ban someone with a generated reason. Not a real ban!</span></div>
+  </div>
+
+  <div class="section-title">Currency — GPT Coins</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!balance</span><span class="cmd-desc">Check your current GPT Coins balance.</span></div>
+    <div class="cmd"><span class="cmd-name">!give @user [amount]</span><span class="cmd-desc">Give GPT Coins to another viewer.</span></div>
+    <div class="cmd"><span class="cmd-name">!gamble [amount]</span><span class="cmd-desc">Spin the slot machine. Use "all" to go all in.</span></div>
+    <div class="cmd"><span class="cmd-name">!heist [amount]</span><span class="cmd-desc">Start or join a crew heist. Win big or lose it all.</span></div>
+    <div class="cmd"><span class="cmd-name">!heistjoin [amount]</span><span class="cmd-desc">Join an active heist with your bet.</span></div>
+    <div class="cmd"><span class="cmd-name">!leaderboard</span><span class="cmd-desc">See the top 5 GPT Coin holders.</span></div>
+    <div class="cmd"><span class="cmd-name">!earncoins</span><span class="cmd-desc">Learn how to earn GPT Coins.</span></div>
+  </div>
+
+  <div class="section-title">Quotes</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!quote [#]</span><span class="cmd-desc">Get a random stream quote, or a specific one by number.</span></div>
+    <div class="cmd"><span class="cmd-name">!quoteby [name]</span><span class="cmd-desc">Get a random quote from a specific person. Partial names work!</span></div>
+    <div class="cmd"><span class="cmd-name">!quotecount</span><span class="cmd-desc">See how many quotes have been saved.</span></div>
+    <div class="cmd"><span class="cmd-name">!addquote [name] [text]</span><span class="cmd-desc">Save a quote to the database.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!delquote [#]</span><span class="cmd-desc">Delete a quote by number.</span><span class="cmd-tag tag-mod">Mods</span></div>
+  </div>
+
+  <div class="section-title">Stream Info</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!uptime</span><span class="cmd-desc">See how long the stream has been live.</span></div>
+    <div class="cmd"><span class="cmd-name">!followtime</span><span class="cmd-desc">See how long you've been following.</span></div>
+    <div class="cmd"><span class="cmd-name">!watchtime</span><span class="cmd-desc">See your total watch time on the channel.</span></div>
+    <div class="cmd"><span class="cmd-name">!game</span><span class="cmd-desc">See what game is currently being played.</span></div>
+    <div class="cmd"><span class="cmd-name">!schedule</span><span class="cmd-desc">See the stream schedule.</span></div>
+    <div class="cmd"><span class="cmd-name">!rules</span><span class="cmd-desc">View the channel rules.</span></div>
+  </div>
+
+  <div class="section-title">Socials</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!discord</span><span class="cmd-desc">Get the Discord server invite link.</span></div>
+    <div class="cmd"><span class="cmd-name">!youtube</span><span class="cmd-desc">Find cCoopGG on YouTube.</span></div>
+    <div class="cmd"><span class="cmd-name">!socials</span><span class="cmd-desc">All social links in one place.</span></div>
+    <div class="cmd"><span class="cmd-name">!sub</span><span class="cmd-desc">Support the stream with a sub!</span></div>
+    <div class="cmd"><span class="cmd-name">!merch</span><span class="cmd-desc">Check out the merch store.</span></div>
+    <div class="cmd"><span class="cmd-name">!setup</span><span class="cmd-desc">See the streaming setup and gear list.</span></div>
+    <div class="cmd"><span class="cmd-name">!sponsors</span><span class="cmd-desc">Sponsors and affiliate links.</span></div>
+  </div>
+
+</main>
+<footer>
+  <p>Powered by <a href="https://twitch.tv/cCoopGG" target="_blank">cCoopGG</a> &bull; Bot by <a href="#" target="_blank">StreamGPT Suite</a></p>
+</footer>
+</body>
+</html>
