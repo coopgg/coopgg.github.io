@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StreamGPT Suite — FAQ</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@700;800;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #ffffff; }
+  a { color: #C50000; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  nav { background: #111111; border-bottom: 1px solid #222222; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .nav-logo { font-size: 1.1rem; font-weight: 800; font-family: 'Tektur', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff; text-decoration: none; }
+  .nav-logo:hover { text-decoration: none; }
+  .nav-logo span { color: #C50000; }
+  .nav-links { display: flex; gap: 1.5rem; font-size: 0.875rem; }
+  .nav-links a { color: #999999; }
+  .nav-links a:hover { color: #ffffff; text-decoration: none; }
+
+  .page-hero { text-align: center; padding: 4rem 2rem 3rem; }
+  .page-hero h1 { font-family: 'Tektur', sans-serif; font-size: 2.25rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+  .page-hero h1 span { color: #C50000; }
+  .page-hero p { color: #999999; font-size: 1rem; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 1.5rem 5rem; }
+
+  .faq-section { margin-bottom: 2.5rem; }
+  .faq-section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #C50000;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #1e1e1e;
+    margin-bottom: 0.5rem;
+  }
+
+  .faq-item { border-bottom: 1px solid #1a1a1a; }
+  .faq-item:last-child { border-bottom: none; }
+
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 1.1rem 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: color 0.15s;
+  }
+  .faq-question:hover { color: #C50000; }
+
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: #444;
+    transition: transform 0.25s ease, color 0.15s;
+  }
+  .faq-item.open .faq-chevron { transform: rotate(180deg); color: #C50000; }
+
+  .faq-answer {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+  .faq-answer-inner {
+    padding: 0 0 1.25rem;
+    font-size: 0.875rem;
+    color: #999999;
+    line-height: 1.75;
+  }
+  .faq-answer-inner p + p { margin-top: 0.75rem; }
+  .faq-answer-inner strong { color: #dddddd; font-weight: 600; }
+  .faq-answer-inner a { color: #C50000; }
+  .faq-answer-inner code { background: #1e1e1e; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.83em; color: #C50000; }
+  .faq-answer-inner ul { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.5rem; }
+
+  .callout { background: #0f0800; border: 1px solid #f0a00033; border-radius: 8px; padding: 0.9rem 1.1rem; margin-top: 0.75rem; font-size: 0.82rem; color: #c8a060; line-height: 1.6; }
+  .callout strong { color: #f0a000; }
+
+  .still-stuck { background: #111111; border: 1px solid #222222; border-radius: 10px; padding: 1.75rem 2rem; text-align: center; margin-top: 2.5rem; }
+  .still-stuck h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .still-stuck p { font-size: 0.875rem; color: #888888; line-height: 1.65; margin-bottom: 1.25rem; }
+  .btn { display: inline-block; padding: 0.65rem 1.5rem; border-radius: 6px; font-weight: 600; font-size: 0.875rem; transition: opacity 0.15s; }
+  .btn:hover { opacity: 0.85; text-decoration: none; }
+  .btn-primary { background: #C50000; color: #fff; }
+  .btn-secondary { background: #1e1e1e; color: #ffffff; border: 1px solid #333; }
+  .btn-row { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+  footer { background: #111111; border-top: 1px solid #222222; padding: 2rem; text-align: center; font-size: 0.8rem; color: #999999; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">STREAMGPT <span>SUITE</span></a>
+  <div class="nav-links">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#systems">Systems</a>
+    <a href="index.html#requirements">Requirements</a>
+    <a href="index.html#install">Install</a>
+    <a href="faq.html" style="color:#ffffff;">FAQ</a>
+    <a href="https://twitch.tv/cCoopGG" target="_blank">by CoopGG</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <h1>Frequently Asked <span>Questions</span></h1>
+  <p>Everything you need to know before buying, during setup, and beyond.</p>
+</div>
+
+<main>
+
+  <!-- BEFORE YOU BUY -->
+  <div class="faq-section">
+    <div class="faq-section-title">Before You Buy</div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Does this work on Mac or Linux?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p><strong>No — Windows only.</strong> Streamerbot is a Windows application and is the core hub that StreamGPT Suite runs through. If you're on Mac or Linux, this product isn't for you.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do I need coding experience?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Not really. You need to be comfortable opening a terminal and running a single command — that's the extent of it. The installer walks you through everything step by step and configures all files automatically. A detailed setup guide is included in the download.</p>
+          <p>That said, if you've never touched a terminal in your life and the idea makes you nervous, expect to spend some extra time getting comfortable. It's genuinely not hard, but it's not a one-click app either.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do I need Streamerbot already installed?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. Streamerbot needs to be installed and connected to your Twitch account before you run the StreamGPT Suite installer. The installer generates a Streamerbot import file — you'll need Streamerbot open to import it. It's free at <a href="https://streamerbot.github.io/client/" target="_blank">streamerbot.github.io</a>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What if I already have Streamerbot actions set up?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>StreamGPT Suite imports as its own set of actions and won't overwrite anything you already have. Your existing setup stays intact. The only thing to watch out for is command name conflicts — if you already have a <code>!lurk</code> or <code>!so</code> action, you may want to disable or rename the old one.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Can I use my existing bot account?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. You can use any bot account already connected to Streamerbot — or your main account if you prefer. The suite sends chat messages through whatever account Streamerbot is configured to use. No changes needed on that front.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PRICING & UPDATES -->
+  <div class="faq-section">
+    <div class="faq-section-title">Pricing &amp; Updates</div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Is the $15 really one-time? No hidden fees?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes, $15 to StreamGPT Suite is a one-time purchase. No subscription, no renewal, no license key. You own it.</p>
+          <p>The only ongoing cost is your OpenAI API usage, which you pay directly to OpenAI — not to StreamGPT Suite. See the question below for what that typically costs.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What does the OpenAI API actually cost per month?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>StreamGPT Suite uses <strong>GPT-4o-mini</strong>, which is OpenAI's most affordable model. For a typical stream — a few hours, active-ish chat — most users spend somewhere between <strong>$1 and $3 per month</strong>. Very active, longer streams could push that higher, but it stays low.</p>
+          <p>You can set a monthly spend limit in your <a href="https://platform.openai.com/account/limits" target="_blank">OpenAI account settings</a> so there are no surprises. If you hit the limit, AI features stop responding until the next billing cycle — your stream won't break, commands just won't fire.</p>
+          <div class="callout"><strong>New accounts get a free credit.</strong> OpenAI typically gives new accounts a small free credit when you sign up, so your first few streams may cost nothing at all.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Do I get future updates?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. All future updates are included with your purchase. When a new version is released, you'll be able to download it from Ko-fi — no additional charge.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Is there a refund policy?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Because this is a digital product, refunds aren't offered once the file has been downloaded. If you run into trouble getting set up, reach out on Discord first — most issues are solvable and support is available.</p>
+          <p>Before purchasing, make sure you meet the <a href="index.html#requirements">requirements</a> — particularly Windows + Streamerbot. Those are the most common reasons someone can't use it.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SETUP -->
+  <div class="faq-section">
+    <div class="faq-section-title">Setup &amp; Installation</div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        How long does setup take?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>If you have everything ready — Streamerbot installed, Python 3 installed, OpenAI API key in hand — the installer itself runs in about 5 minutes. The full process including Streamerbot import and compile is typically <strong>15–30 minutes</strong> for first-timers following the setup guide.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Can I install only some systems, not all of them?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. The installer asks you which systems you want to include, and only installs what you select. You're not forced to take all 22 systems. You can always re-run the installer later to add systems you skipped.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        I already have Python installed. Do I need to do anything special?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Nope — as long as you have Python 3 installed and it's accessible from your terminal (i.e. <code>python --version</code> returns something), you're good. The installer will handle the rest including installing the required Python packages.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What does the installer actually do?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>It collects your settings upfront — API key, streamer name, bot name, currency name, custom emotes, and which systems to install — then does the following:</p>
+          <ul>
+            <li>Creates the <code>C:\StreamGPT</code> folder structure</li>
+            <li>Copies and configures all Python scripts with your settings</li>
+            <li>Generates the Streamerbot import file (<code>StreamGPT_Suite_Import.json</code>)</li>
+            <li>Installs required Python packages automatically</li>
+          </ul>
+          <p style="margin-top:0.75rem;">Nothing is written to your system until you review a full summary and confirm.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- USING THE SUITE -->
+  <div class="faq-section">
+    <div class="faq-section-title">Using the Suite</div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Can I customize the AI's personality or responses?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. Every Python script has a system prompt at the top that tells the AI how to behave for that feature. You can edit these directly — change the tone, personality, length of responses, or any other instructions. No programming required, just text editing.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        What if I need to change my streamer name, bot name, or emotes after installing?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>All shared settings live in a single <code>config.py</code> file at <code>C:\StreamGPT\config.py</code>. Open it in any text editor, update the values you need to change, and save. The scripts read from that file at runtime, so changes take effect immediately — no reinstall needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Can I turn off AI features and use fallback-only mode?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Yes. There's a toggle in <code>config.py</code> (<code>SO_FALLBACK_ONLY</code>) that switches all AI systems to their static fallback responses. Useful if you're temporarily over budget on API usage, having API issues, or just want a break from AI responses without disabling anything.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Does anything need to be running for the bot to work during a stream?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Just Streamerbot — that's it. The Python scripts are launched automatically by Streamerbot in the background when commands are triggered. You don't need to keep any extra windows open or run anything manually before going live.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TROUBLESHOOTING -->
+  <div class="faq-section">
+    <div class="faq-section-title">Troubleshooting</div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        Something isn't working after install — where do I start?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Start with these in order:</p>
+          <ul>
+            <li>Check the Streamerbot action log — it shows exactly which sub-actions ran and what failed</li>
+            <li>Make sure you clicked <strong>Save and Compile</strong> on every <code>Execute - #Code</code> action in Streamerbot</li>
+            <li>Confirm your OpenAI API key is correct and your account has billing enabled</li>
+            <li>Check that <code>C:\StreamGPT</code> exists and the scripts are in the right subfolders</li>
+          </ul>
+          <p style="margin-top:0.75rem;">The setup guide includes a troubleshooting section with the most common issues and fixes. If you're still stuck, bring the Streamerbot log to the Discord and someone can help.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        My OpenAI API key isn't working — what do I check?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <ul>
+            <li><strong>Billing enabled?</strong> New API accounts need a payment method added at <a href="https://platform.openai.com/account/billing" target="_blank">platform.openai.com/account/billing</a> before the key works</li>
+            <li><strong>Key copied correctly?</strong> Open <code>C:\StreamGPT\config.py</code> and confirm the key is there, no extra spaces or missing characters</li>
+            <li><strong>Monthly limit hit?</strong> Check your usage at <a href="https://platform.openai.com/usage" target="_blank">platform.openai.com/usage</a></li>
+            <li><strong>Key revoked?</strong> Old keys can be deactivated — generate a new one at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a> and update <code>config.py</code></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">
+        The bot responds to some commands but not others — why?
+        <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          <p>Usually one of three things:</p>
+          <ul>
+            <li>The action for that command wasn't compiled — open it in Streamerbot and hit <strong>Save and Compile</strong></li>
+            <li>The command trigger in Streamerbot is disabled or set to the wrong prefix</li>
+            <li>You opted out of that system during installation — check <code>C:\StreamGPT</code> to see if the relevant script folder exists</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="still-stuck">
+    <h3>Still have questions?</h3>
+    <p>Come hang out in the Discord — the Coop Troop community and CoopGG are both there and happy to help you get set up.</p>
+    <div class="btn-row">
+      <a href="https://discord.gg/Z9JAzwX" target="_blank" class="btn btn-primary">Join the Discord</a>
+      <a href="https://ko-fi.com/s/411278a4de" target="_blank" class="btn btn-secondary">Get StreamGPT Suite — $15</a>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p>Made by <a href="https://twitch.tv/cCoopGG" target="_blank">CoopGG</a> &bull; Powered by OpenAI + Streamerbot</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const answer = item.querySelector('.faq-answer');
+      const isOpen = item.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+        openItem.classList.remove('open');
+        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+      });
+
+      // Open this one if it was closed
+      if (!isOpen) {
+        item.classList.add('open');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    });
+  });
+</script>
+</body>
+</html>
