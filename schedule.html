@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CoopGG — Stream Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tektur:wght@700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1rem 4rem;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, #C5000022 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .logo {
+    font-family: 'Tektur', sans-serif;
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .logo span { color: #C50000; }
+
+  .subtitle {
+    font-size: 0.85rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+
+  .timezone-bar {
+    background: #111111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 0.6rem 1.25rem;
+    font-size: 0.8rem;
+    color: #888;
+    text-align: center;
+  }
+
+  .timezone-bar span {
+    color: #C50000;
+    font-weight: 600;
+  }
+
+  .schedule {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .day-card {
+    background: #111111;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    transition: border-color 0.15s;
+  }
+
+  .day-card.live {
+    border-color: #C50000;
+    background: #1a0000;
+  }
+
+  .day-card.stream-day {
+    border-color: #2a0000;
+  }
+
+  .day-card.stream-day:hover {
+    border-color: #C5000066;
+  }
+
+  .day-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .day-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+    flex-shrink: 0;
+  }
+
+  .day-card.stream-day .day-dot { background: #C50000; }
+  .day-card.live .day-dot {
+    background: #C50000;
+    box-shadow: 0 0 8px #C50000;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .day-name {
+    font-family: 'Tektur', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+  }
+
+  .day-card:not(.stream-day):not(.live) .day-name { color: #444; }
+
+  .day-right {
+    text-align: right;
+  }
+
+  .day-time {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .day-card:not(.stream-day):not(.live) .day-time { color: #333; }
+
+  .day-time-original {
+    font-size: 0.75rem;
+    color: #555;
+    margin-top: 2px;
+  }
+
+  .live-badge {
+    display: inline-block;
+    background: #C50000;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  .off-label {
+    font-size: 0.8rem;
+    color: #333;
+    font-weight: 500;
+  }
+
+  .next-stream {
+    background: #111111;
+    border: 1px solid #2a0000;
+    border-radius: 10px;
+    padding: 1rem 1.5rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .next-stream-label {
+    font-size: 0.75rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.35rem;
+  }
+
+  .next-stream-time {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .next-stream-countdown {
+    font-size: 0.8rem;
+    color: #C50000;
+    margin-top: 0.25rem;
+    font-weight: 500;
+  }
+
+  .twitch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #C50000;
+    color: #fff;
+    font-family: 'Tektur', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1.75rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .twitch-btn:hover { opacity: 0.85; text-decoration: none; }
+
+  footer {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #333;
+    text-align: center;
+  }
+
+  footer a { color: #555; text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo">COOP<span>GG</span></div>
+    <div class="subtitle">Stream Schedule</div>
+  </header>
+
+  <div class="timezone-bar">
+    Times shown in your local timezone: <span id="tz-name">detecting...</span>
+  </div>
+
+  <div class="schedule" id="schedule"></div>
+
+  <div class="next-stream" id="next-stream-box">
+    <div class="next-stream-label">Next Stream</div>
+    <div class="next-stream-time" id="next-stream-time">Calculating...</div>
+    <div class="next-stream-countdown" id="next-stream-countdown"></div>
+  </div>
+
+  <a href="https://twitch.tv/cCoopGG" target="_blank" class="twitch-btn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+    Watch Live
+  </a>
+
+  <footer>
+    <a href="https://coopgg.github.io/links.html">All links</a> &bull;
+    <a href="https://coopgg.github.io/commands.html">Commands</a>
+  </footer>
+
+</div>
+
+<script>
+  // Stream schedule — Mon, Wed, Thu 21:00-01:00 Eastern
+  const STREAM_DAYS = [1, 3, 4]; // 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  const START_HOUR_ET = 21;
+  const END_HOUR_ET   = 1; // next day
+
+  const ALL_DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const SHORT_DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function getEasternOffset() {
+    // Determine if ET is EDT (-4) or EST (-5)
+    const now = new Date();
+    const jan = new Date(now.getFullYear(), 0, 1);
+    const jul = new Date(now.getFullYear(), 6, 1);
+    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
+    return stdOffset === 300 ? -5 : -4; // EST or EDT
+  }
+
+  function etToLocal(dayOfWeek, hour) {
+    const etOffset = getEasternOffset();
+    const localOffset = -new Date().getTimezoneOffset() / 60;
+    const diff = localOffset - etOffset;
+    let localHour = hour + diff;
+    let localDay  = dayOfWeek;
+    if (localHour >= 24) { localHour -= 24; localDay = (localDay + 1) % 7; }
+    if (localHour < 0)   { localHour += 24; localDay = (localDay + 6) % 7; }
+    return { day: localDay, hour: localHour };
+  }
+
+  function formatHour(hour) {
+    const h = Math.floor(hour) % 24;
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12  = h % 12 || 12;
+    return `${h12}:00 ${ampm}`;
+  }
+
+  function getNextStream() {
+    const now = new Date();
+    const etOffset = getEasternOffset();
+    const localOffset = -now.getTimezoneOffset() / 60;
+    const diff = localOffset - etOffset;
+
+    // Find next stream day/time in ET, convert to local
+    for (let i = 0; i < 8; i++) {
+      const checkDate = new Date(now);
+      checkDate.setDate(now.getDate() + i);
+      const dayET = checkDate.getDay();
+
+      if (STREAM_DAYS.includes(dayET)) {
+        // Build the stream start in local time
+        const streamStart = new Date(checkDate);
+        streamStart.setHours(START_HOUR_ET + diff, 0, 0, 0);
+        if (streamStart > now) {
+          return streamStart;
+        }
+      }
+    }
+    return null;
+  }
+
+  function formatCountdown(ms) {
+    const totalMins = Math.floor(ms / 60000);
+    const days  = Math.floor(totalMins / 1440);
+    const hours = Math.floor((totalMins % 1440) / 60);
+    const mins  = totalMins % 60;
+    if (days > 0)  return `in ${days}d ${hours}h ${mins}m`;
+    if (hours > 0) return `in ${hours}h ${mins}m`;
+    return `in ${mins}m`;
+  }
+
+  function isLiveNow() {
+    const now = new Date();
+    const etOffset = getEasternOffset();
+    const localOffset = -now.getTimezoneOffset() / 60;
+    const diff = localOffset - etOffset;
+
+    const dayET  = new Date(now.getTime() - diff * 3600000).getDay();
+    const hourET = new Date(now.getTime() - diff * 3600000).getHours();
+
+    if (!STREAM_DAYS.includes(dayET)) return false;
+    // Stream is 21:00 - 01:00 ET (spans midnight)
+    return hourET >= START_HOUR_ET || hourET < END_HOUR_ET;
+  }
+
+  function render() {
+    const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' ');
+    document.getElementById('tz-name').textContent = tzName;
+
+    const live = isLiveNow();
+    const schedule = document.getElementById('schedule');
+    schedule.innerHTML = '';
+
+    ALL_DAYS.forEach((dayName, dayIndex) => {
+      const isStreamDay = STREAM_DAYS.includes(dayIndex);
+      const card = document.createElement('div');
+
+      const startLocal = etToLocal(dayIndex, START_HOUR_ET);
+      const endLocal   = etToLocal(dayIndex, START_HOUR_ET + 4); // 4hr stream
+
+      // Check if today
+      const nowDay = new Date().getDay();
+      const isToday = dayIndex === nowDay;
+      const isLiveCard = isToday && isStreamDay && live;
+
+      card.className = 'day-card' + (isStreamDay ? ' stream-day' : '') + (isLiveCard ? ' live' : '');
+
+      if (isStreamDay) {
+        card.innerHTML = `
+          <div class="day-left">
+            <div class="day-dot"></div>
+            <div class="day-name">${dayName}${isLiveCard ? '<span class="live-badge">Live</span>' : ''}</div>
+          </div>
+          <div class="day-right">
+            <div class="day-time">${formatHour(startLocal.hour)} – ${formatHour(endLocal.hour)}</div>
+            <div class="day-time-original">9:00 PM – 1:00 AM ET</div>
+          </div>`;
+      } else {
+        card.innerHTML = `
+          <div class="day-left">
+            <div class="day-dot"></div>
+            <div class="day-name">${dayName}</div>
+          </div>
+          <div class="day-right">
+            <div class="off-label">Off</div>
+          </div>`;
+      }
+
+      schedule.appendChild(card);
+    });
+
+    // Next stream box
+    if (live) {
+      document.getElementById('next-stream-time').textContent = 'Currently Live!';
+      document.getElementById('next-stream-countdown').textContent = 'Go watch now 👇';
+    } else {
+      const next = getNextStream();
+      if (next) {
+        const dayName = ALL_DAYS[next.getDay()];
+        const timeStr = next.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const dateStr = next.toLocaleDateString([], { month: 'short', day: 'numeric' });
+        document.getElementById('next-stream-time').textContent = `${dayName}, ${dateStr} at ${timeStr}`;
+        const msUntil = next - new Date();
+        document.getElementById('next-stream-countdown').textContent = formatCountdown(msUntil);
+      }
+    }
+  }
+
+  render();
+  setInterval(render, 60000); // update every minute
+</script>
+</body>
+</html>
