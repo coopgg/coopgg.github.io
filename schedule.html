@@ -289,18 +289,23 @@
   const SHORT_DAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 
   function getEasternOffset() {
-    // Determine if ET is EDT (-4) or EST (-5)
     const now = new Date();
-    const jan = new Date(now.getFullYear(), 0, 1);
-    const jul = new Date(now.getFullYear(), 6, 1);
-    const stdOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset());
-    return stdOffset === 300 ? -5 : -4; // EST or EDT
+    const etString = now.toLocaleString('en-US', { timeZone: 'America/New_York', timeZoneName: 'short' });
+    if (etString.includes('EDT')) return -4;
+    return -5;
+  }
+
+  function getEasternAbbr() {
+    const now = new Date();
+    const etString = now.toLocaleString('en-US', { timeZone: 'America/New_York', timeZoneName: 'short' });
+    return etString.includes('EDT') ? 'EDT' : 'EST';
   }
 
   function etToLocal(dayOfWeek, hour) {
-    const etOffset = getEasternOffset();
+    // Use Intl to get accurate ET offset including DST
+    const etOffset    = getEasternOffset();
     const localOffset = -new Date().getTimezoneOffset() / 60;
-    const diff = localOffset - etOffset;
+    const diff        = localOffset - etOffset;
     let localHour = hour + diff;
     let localDay  = dayOfWeek;
     if (localHour >= 24) { localHour -= 24; localDay = (localDay + 1) % 7; }
@@ -317,23 +322,25 @@
 
   function getNextStream() {
     const now = new Date();
-    const etOffset = getEasternOffset();
-    const localOffset = -now.getTimezoneOffset() / 60;
-    const diff = localOffset - etOffset;
-
-    // Find next stream day/time in ET, convert to local
+    // Walk forward up to 8 days looking for next stream start in ET
     for (let i = 0; i < 8; i++) {
       const checkDate = new Date(now);
       checkDate.setDate(now.getDate() + i);
-      const dayET = checkDate.getDay();
+
+      // Get day-of-week in ET for this date
+      const etDay = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/New_York', weekday: 'short'
+      }).format(checkDate);
+      const dayMap = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+      const dayET  = dayMap[etDay];
 
       if (STREAM_DAYS.includes(dayET)) {
-        // Build the stream start in local time
-        const streamStart = new Date(checkDate);
-        streamStart.setHours(START_HOUR_ET + diff, 0, 0, 0);
-        if (streamStart > now) {
-          return streamStart;
-        }
+        // Build stream start: that calendar date at 21:00 ET
+        const y = checkDate.toLocaleDateString('en-US', { timeZone: 'America/New_York', year: 'numeric' });
+        const m = checkDate.toLocaleDateString('en-US', { timeZone: 'America/New_York', month: '2-digit' });
+        const d = checkDate.toLocaleDateString('en-US', { timeZone: 'America/New_York', day: '2-digit' });
+        const streamStart = new Date(`${y}-${m}-${d}T21:00:00-0${Math.abs(getEasternOffset())}:00`);
+        if (streamStart > now) return streamStart;
       }
     }
     return null;
@@ -349,22 +356,31 @@
     return `in ${mins}m`;
   }
 
-  function isLiveNow() {
+  function getNowInET() {
+    // Get current day and hour in America/New_York accurately
     const now = new Date();
-    const etOffset = getEasternOffset();
-    const localOffset = -now.getTimezoneOffset() / 60;
-    const diff = localOffset - etOffset;
+    const etParts = new Intl.DateTimeFormat('en-US', {
+      timeZone: 'America/New_York',
+      weekday: 'short',
+      hour: 'numeric',
+      hour12: false
+    }).formatToParts(now);
+    const dayStr  = etParts.find(p => p.type === 'weekday').value;
+    const hourStr = etParts.find(p => p.type === 'hour').value;
+    const dayMap  = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+    return { day: dayMap[dayStr], hour: parseInt(hourStr, 10) };
+  }
 
-    const dayET  = new Date(now.getTime() - diff * 3600000).getDay();
-    const hourET = new Date(now.getTime() - diff * 3600000).getHours();
-
-    if (!STREAM_DAYS.includes(dayET)) return false;
+  function isLiveNow() {
+    const { day, hour } = getNowInET();
+    if (!STREAM_DAYS.includes(day)) return false;
     // Stream is 21:00 - 01:00 ET (spans midnight)
-    return hourET >= START_HOUR_ET || hourET < END_HOUR_ET;
+    return hour >= START_HOUR_ET || hour < END_HOUR_ET;
   }
 
   function render() {
     const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, ' ');
+    document.querySelectorAll('#et-abbr').forEach(el => el.textContent = getEasternAbbr());
     document.getElementById('tz-name').textContent = tzName;
 
     const live = isLiveNow();
@@ -393,7 +409,7 @@
           </div>
           <div class="day-right">
             <div class="day-time">${formatHour(startLocal.hour)} – ${formatHour(endLocal.hour)}</div>
-            <div class="day-time-original">9:00 PM – 1:00 AM ET</div>
+            <div class="day-time-original">9:00 PM – 1:00 AM <span id="et-abbr"></span></div>
           </div>`;
       } else {
         card.innerHTML = `
