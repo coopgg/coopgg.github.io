@@ -12,9 +12,9 @@
   a:hover { text-decoration: underline; }
 
   nav { background: #111111; border-bottom: 1px solid #222222; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-  .nav-logo { font-size: 1.1rem; font-weight: 800; font-family: 'Tektur', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff; text-decoration: none; }
-  .nav-logo:hover { text-decoration: none; }
-  .nav-logo span { color: #C50000; }
+  .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+  .nav-logo img { width: 36px; height: 36px; border-radius: 50%; }
+  .nav-logo-text { font-size: 1.1rem; font-weight: 800; font-family: 'Tektur', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff; }
   .nav-links { display: flex; gap: 1.5rem; font-size: 0.875rem; }
   .nav-links a { color: #999999; }
   .nav-links a:hover { color: #ffffff; text-decoration: none; }
@@ -104,12 +104,15 @@
 <body>
 
 <nav>
-  <a href="index.html" class="nav-logo">STREAMGPT <span>SUITE</span></a>
+  <a href="https://coopgg.github.io/streamgpt-suite/index.html" class="nav-logo">
+    <img src="assets/streamgpt-logo.png" alt="StreamGPT Suite">
+    <span class="nav-logo-text">STREAMGPT <span style="color:#C50000;">SUITE</span></span>
+  </a>
   <div class="nav-links">
-    <a href="index.html#features">Features</a>
-    <a href="index.html#systems">Systems</a>
-    <a href="index.html#requirements">Requirements</a>
-    <a href="index.html#install">Install</a>
+    <a href="https://coopgg.github.io/streamgpt-suite/index.html#features">Features</a>
+    <a href="https://coopgg.github.io/streamgpt-suite/index.html#systems">Systems</a>
+    <a href="https://coopgg.github.io/streamgpt-suite/index.html#requirements">Requirements</a>
+    <a href="https://coopgg.github.io/streamgpt-suite/index.html#install">Install</a>
     <a href="faq.html" style="color:#ffffff;">FAQ</a>
     <a href="https://twitch.tv/cCoopGG" target="_blank">by CoopGG</a>
   </div>
@@ -240,7 +243,7 @@
       <div class="faq-answer">
         <div class="faq-answer-inner">
           <p>Because this is a digital product, refunds aren't offered once the file has been downloaded. If you run into trouble getting set up, reach out on Discord first — most issues are solvable and support is available.</p>
-          <p>Before purchasing, make sure you meet the <a href="index.html#requirements">requirements</a> — particularly Windows + Streamerbot. Those are the most common reasons someone can't use it.</p>
+          <p>Before purchasing, make sure you meet the <a href="https://coopgg.github.io/streamgpt-suite/index.html#requirements">requirements</a> — particularly Windows + Streamerbot. Those are the most common reasons someone can't use it.</p>
         </div>
       </div>
     </div>
@@ -425,7 +428,7 @@
     <h3>Still have questions?</h3>
     <p>Come hang out in the Discord — the Coop Troop community and CoopGG are both there and happy to help you get set up.</p>
     <div class="btn-row">
-      <a href="https://discord.gg/Z9JAzwX" target="_blank" class="btn btn-primary">Join the Discord</a>
+      <a href="https://discord.gg/GqKNHDdA" target="_blank" class="btn btn-primary">Join the Discord</a>
       <a href="https://ko-fi.com/s/411278a4de" target="_blank" class="btn btn-secondary">Get StreamGPT Suite — $15</a>
     </div>
   </div>
