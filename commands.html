@@ -24,8 +24,10 @@
   .cmd-desc { font-size: 0.82rem; color: #999999; line-height: 1.4; }
   .cmd-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
   .tag-mod { background: #1a1a2e; color: #C50000; border: 1px solid #C5000044; }
+  .tag-broadcaster { background: #2a0a00; color: #ff8c00; border: 1px solid #ff8c0044; }
   .tag-ai { background: #1a1a1a; color: #aaaaaa; border: 1px solid #444444; }
   .tag-game { background: #2a0000; color: #ff4444; border: 1px solid #C5000044; }
+  .tag-optional { background: #0a1a0a; color: #4caf50; border: 1px solid #4caf5044; }
   footer { text-align: center; padding: 2rem; color: #999999; font-size: 0.8rem; border-top: 1px solid #222222; margin-top: 2rem; }
   footer a { color: #C50000; text-decoration: none; }
 </style>
@@ -42,18 +44,22 @@
 
   <div class="section-title">AI Commands</div>
   <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!lurk</span><span class="cmd-desc">Let the stream know you're lurking. The bot sends you off in style.</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">!lurk / !brb</span><span class="cmd-desc">Let the stream know you're lurking or stepping away. The bot sends you off in style.</span><span class="cmd-tag tag-ai">AI</span></div>
     <div class="cmd"><span class="cmd-name">!so @user</span><span class="cmd-desc">Give an AI-generated shoutout to another streamer.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-ai">AI</span></div>
     <div class="cmd"><span class="cmd-name">@CoopGPT</span><span class="cmd-desc">Mention the bot in chat and it will respond to you directly.</span><span class="cmd-tag tag-ai">AI</span></div>
-    <div class="cmd"><span class="cmd-name">!8ball [question]</span><span class="cmd-desc">Ask the magic 8ball a question. It knows all.</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">!8ball [question]</span><span class="cmd-desc">Ask the magic 8ball a question. Context-aware answers every time.</span><span class="cmd-tag tag-ai">AI</span></div>
+    <div class="cmd"><span class="cmd-name">I'm Here (Channel Point)</span><span class="cmd-desc">Redeem to get an AI in-universe response from CoopGPT acknowledging your presence.</span><span class="cmd-tag tag-ai">AI</span></div>
   </div>
 
   <div class="section-title">Chat Games</div>
   <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!trivia</span><span class="cmd-desc">Start an AI trivia round. Answer A, B, C, or D. First correct wins more coins.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!riddle</span><span class="cmd-desc">Start a riddle. Fuzzy matching — close answers count!</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!cyoa</span><span class="cmd-desc">Start a chat-driven Choose Your Own Adventure. Vote 1, 2, or 3.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!quickmath</span><span class="cmd-desc">Solve a math problem before time runs out. Type the number answer.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!trivia</span><span class="cmd-desc">AI trivia round — answer A, B, C, or D. 30 seconds. Coins to winners.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!riddle</span><span class="cmd-desc">Classic riddle from a curated bank. Fuzzy matching — close answers count!</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!20q</span><span class="cmd-desc">20 Questions — AI picks an Animal, Place, Famous Person, or Object. Use !ask and !guess to play.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!capitals</span><span class="cmd-desc">US state capitals quiz — answer A, B, C, or D. Coins to winners.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!cyoa</span><span class="cmd-desc">Chat-driven Choose Your Own Adventure. Vote 1, 2, or 3 on each story direction.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!quickmath</span><span class="cmd-desc">Solve a math expression before time runs out. Type the number answer.</span><span class="cmd-tag tag-game">Game</span></div>
+    <div class="cmd"><span class="cmd-name">!end20q</span><span class="cmd-desc">End an active 20 Questions game early.</span><span class="cmd-tag tag-mod">Mods</span></div>
     <div class="cmd"><span class="cmd-name">!chuck / !chucknorris</span><span class="cmd-desc">Get a random Chuck Norris fact. RIP legend.</span></div>
     <div class="cmd"><span class="cmd-name">!funfact</span><span class="cmd-desc">Get a random fun fact from the internet.</span></div>
     <div class="cmd"><span class="cmd-name">!dadjoke</span><span class="cmd-desc">Get a random dad joke. You've been warned.</span></div>
@@ -65,19 +71,51 @@
     <div class="cmd"><span class="cmd-name">!slap [@user]</span><span class="cmd-desc">Slap someone with a random object.</span></div>
     <div class="cmd"><span class="cmd-name">!hug [@user]</span><span class="cmd-desc">Wholesome hugs for everyone.</span></div>
     <div class="cmd"><span class="cmd-name">!fart [@user]</span><span class="cmd-desc">You know what this does.</span></div>
-    <div class="cmd"><span class="cmd-name">!corner [@user]</span><span class="cmd-desc">Send someone to the corner.</span></div>
-    <div class="cmd"><span class="cmd-name">!ban [@user]</span><span class="cmd-desc">Fake ban someone with a generated reason. Not a real ban!</span></div>
+    <div class="cmd"><span class="cmd-name">!corner [@user]</span><span class="cmd-desc">Send someone to the corner with a reason.</span></div>
+    <div class="cmd"><span class="cmd-name">!ban [@user]</span><span class="cmd-desc">Fake ban with a generated duration and reason. Not a real ban!</span></div>
   </div>
 
   <div class="section-title">Currency — GPT Coins</div>
   <div class="cmd-grid">
     <div class="cmd"><span class="cmd-name">!balance</span><span class="cmd-desc">Check your current GPT Coins balance.</span></div>
-    <div class="cmd"><span class="cmd-name">!give @user [amount]</span><span class="cmd-desc">Give GPT Coins to another viewer.</span></div>
-    <div class="cmd"><span class="cmd-name">!gamble [amount]</span><span class="cmd-desc">Spin the slot machine. Use "all" to go all in.</span></div>
-    <div class="cmd"><span class="cmd-name">!heist [amount]</span><span class="cmd-desc">Start or join a crew heist. Win big or lose it all.</span></div>
+    <div class="cmd"><span class="cmd-name">!give @user [amount]</span><span class="cmd-desc">Gift GPT Coins to another viewer.</span></div>
+    <div class="cmd"><span class="cmd-name">!gamble [amount]</span><span class="cmd-desc">Spin the slot machine. Win up to 20x your bet.</span></div>
+    <div class="cmd"><span class="cmd-name">!heist [amount]</span><span class="cmd-desc">Start a crew heist. 60s for others to join. AI story on resolution.</span></div>
     <div class="cmd"><span class="cmd-name">!heistjoin [amount]</span><span class="cmd-desc">Join an active heist with your bet.</span></div>
     <div class="cmd"><span class="cmd-name">!leaderboard</span><span class="cmd-desc">See the top 5 GPT Coin holders.</span></div>
     <div class="cmd"><span class="cmd-name">!earncoins</span><span class="cmd-desc">Learn how to earn GPT Coins.</span></div>
+    <div class="cmd"><span class="cmd-name">!addCoins @user [amount]</span><span class="cmd-desc">Add coins to a viewer's balance.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!setCoins @user [amount]</span><span class="cmd-desc">Set a viewer's balance to a specific amount.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!resetAllCoins</span><span class="cmd-desc">Reset every viewer's balance to zero.</span><span class="cmd-tag tag-broadcaster">Broadcaster</span></div>
+  </div>
+
+  <div class="section-title">Timed VIP</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">VIP (Channel Point)</span><span class="cmd-desc">Redeem to auto-grant VIP status for a configured number of days. Subs get more days.</span></div>
+    <div class="cmd"><span class="cmd-name">!vipDays</span><span class="cmd-desc">Check how many VIP days you have remaining.</span></div>
+    <div class="cmd"><span class="cmd-name">!tempvip @user</span><span class="cmd-desc">Manually grant timed VIP to a viewer.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!addDays @user [n]</span><span class="cmd-desc">Add days to a viewer's active VIP.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!takeVIP @user</span><span class="cmd-desc">Remove a timed VIP from a viewer.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!logVips</span><span class="cmd-desc">Log all currently active timed VIPs.</span><span class="cmd-tag tag-mod">Mods</span></div>
+  </div>
+
+  <div class="section-title">Playing With Viewers</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!addme</span><span class="cmd-desc">Add yourself to the play queue.</span></div>
+    <div class="cmd"><span class="cmd-name">!removeme</span><span class="cmd-desc">Remove yourself from the play queue.</span></div>
+    <div class="cmd"><span class="cmd-name">!queue / !showplayers</span><span class="cmd-desc">View the current queue and active players.</span></div>
+    <div class="cmd"><span class="cmd-name">!nextplayer</span><span class="cmd-desc">Pull the next viewer from the queue.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!randomplayer</span><span class="cmd-desc">Pull a random viewer from the queue.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!removeactive / !clearplayers</span><span class="cmd-desc">Remove or clear active players.</span><span class="cmd-tag tag-mod">Mods</span></div>
+  </div>
+
+  <div class="section-title">Raffle &amp; Giveaway</div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!enterraffle</span><span class="cmd-desc">Enter an active raffle.</span></div>
+    <div class="cmd"><span class="cmd-name">!enter</span><span class="cmd-desc">Enter an active giveaway.</span></div>
+    <div class="cmd"><span class="cmd-name">!startraffle / !drawraffle / !clearraffle</span><span class="cmd-desc">Start, draw, or clear a raffle.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!startgiveaway [prize]</span><span class="cmd-desc">Start a giveaway with a prize name.</span><span class="cmd-tag tag-mod">Mods</span></div>
+    <div class="cmd"><span class="cmd-name">!pickwinner / !clearentries</span><span class="cmd-desc">Pick a winner with an AI announcement, or clear all entries.</span><span class="cmd-tag tag-mod">Mods</span></div>
   </div>
 
   <div class="section-title">Quotes</div>
@@ -92,11 +130,12 @@
   <div class="section-title">Stream Info</div>
   <div class="cmd-grid">
     <div class="cmd"><span class="cmd-name">!uptime</span><span class="cmd-desc">See how long the stream has been live.</span></div>
-    <div class="cmd"><span class="cmd-name">!followtime</span><span class="cmd-desc">See how long you've been following.</span></div>
+    <div class="cmd"><span class="cmd-name">!followtime / !followage</span><span class="cmd-desc">See how long you've been following.</span></div>
     <div class="cmd"><span class="cmd-name">!watchtime</span><span class="cmd-desc">See your total watch time on the channel.</span></div>
     <div class="cmd"><span class="cmd-name">!game</span><span class="cmd-desc">See what game is currently being played.</span></div>
     <div class="cmd"><span class="cmd-name">!schedule</span><span class="cmd-desc">See the stream schedule.</span></div>
     <div class="cmd"><span class="cmd-name">!rules</span><span class="cmd-desc">View the channel rules.</span></div>
+    <div class="cmd"><span class="cmd-name">!coopgpt / !commands</span><span class="cmd-desc">Get the full command list.</span></div>
   </div>
 
   <div class="section-title">Socials</div>
@@ -108,6 +147,20 @@
     <div class="cmd"><span class="cmd-name">!merch</span><span class="cmd-desc">Check out the merch store.</span></div>
     <div class="cmd"><span class="cmd-name">!setup</span><span class="cmd-desc">See the streaming setup and gear list.</span></div>
     <div class="cmd"><span class="cmd-name">!sponsors</span><span class="cmd-desc">Sponsors and affiliate links.</span></div>
+  </div>
+
+  <div class="section-title">Spotify <span style="font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#0a1a0a;color:#4caf50;border:1px solid #4caf5044;text-transform:uppercase;letter-spacing:0.05em;vertical-align:middle;margin-left:0.4rem;">Optional Add-on</span></div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!song</span><span class="cmd-desc">Show the currently playing Spotify track.</span><span class="cmd-tag tag-optional">Optional</span></div>
+    <div class="cmd"><span class="cmd-name">Song Request (Channel Point)</span><span class="cmd-desc">Viewers redeem to queue a song by name.</span><span class="cmd-tag tag-optional">Optional</span></div>
+    <div class="cmd"><span class="cmd-name">Song Skip (Channel Point)</span><span class="cmd-desc">Viewers redeem to skip the current track.</span><span class="cmd-tag tag-optional">Optional</span></div>
+  </div>
+
+  <div class="section-title">Death Counter <span style="font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#0a1a0a;color:#4caf50;border:1px solid #4caf5044;text-transform:uppercase;letter-spacing:0.05em;vertical-align:middle;margin-left:0.4rem;">Optional Add-on</span></div>
+  <div class="cmd-grid">
+    <div class="cmd"><span class="cmd-name">!death / !dead</span><span class="cmd-desc">Increment the death count and post it to chat.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-optional">Optional</span></div>
+    <div class="cmd"><span class="cmd-name">!deaths</span><span class="cmd-desc">Check the current death count.</span><span class="cmd-tag tag-optional">Optional</span></div>
+    <div class="cmd"><span class="cmd-name">!resetdeaths</span><span class="cmd-desc">Reset the death counter to zero.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-optional">Optional</span></div>
   </div>
 
 </main>
