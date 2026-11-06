@@ -2,170 +2,260 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="icon" type="image/png" href="assets/avatar.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CoopGG — Stream Commands</title>
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Every chat command for the CoopGG stream: games, GPT Coins, Pokémon, Destiny 2 info and more.">
+<title>CoopGG | Stream Commands</title>
+<link rel="icon" type="image/png" href="assets/avatar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Tektur:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@700;800;900&display=swap');
+  :root {
+    color-scheme: dark;
+    --bg: #0a0a0a;
+    --panel: #121212;
+    --panel-hover: #171717;
+    --border: #262626;
+    --border-strong: #3a3a3a;
+    --text: #f2f2f2;
+    --text-dim: #a3a3a3;
+    --accent: #c50000;            /* fills and borders */
+    --accent-text: #ff5a5a;       /* red used for text: 6:1 on the page background */
+    --accent-soft: rgba(197, 0, 0, 0.16);
+    --mod: #ffc46b;
+    --mod-soft: rgba(255, 196, 107, 0.12);
+    --font-display: 'Tektur', sans-serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #ffffff; min-height: 100vh; }
-  header { background: #111111; border-bottom: 1px solid #222222; padding: 1.5rem 2rem; display: flex; align-items: center; gap: 1rem; }
-  header img { width: 48px; height: 48px; border-radius: 50%; background: #C50000; }
-  header h1 { font-size: 1.4rem; font-weight: 800; font-family: 'Tektur', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; color: #ffffff; }
-  header span { font-size: 0.85rem; color: #999999; }
-  .live-badge { background: #eb0400; color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; letter-spacing: 0.05em; }
-  main { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
-  .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #C50000; margin: 2rem 0 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid #222222; }
-  .section-title:first-child { margin-top: 0; }
-  .cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
-  .cmd { background: #111111; border: 1px solid #222222; border-radius: 8px; padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.25rem; }
-  .cmd:hover { border-color: #C5000044; }
-  .cmd-name { font-family: 'Courier New', monospace; font-size: 0.9rem; font-weight: 600; color: #C50000; }
-  .cmd-desc { font-size: 0.82rem; color: #999999; line-height: 1.4; }
-  .cmd-tag { display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 2px 6px; border-radius: 3px; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
-  .tag-mod { background: #1a1a2e; color: #C50000; border: 1px solid #C5000044; }
-  .tag-broadcaster { background: #2a0a00; color: #ff8c00; border: 1px solid #ff8c0044; }
-  .tag-ai { background: #1a1a1a; color: #aaaaaa; border: 1px solid #444444; }
-  .tag-game { background: #2a0000; color: #ff4444; border: 1px solid #C5000044; }
-  .tag-optional { background: #0a1a0a; color: #4caf50; border: 1px solid #4caf5044; }
-  footer { text-align: center; padding: 2rem; color: #999999; font-size: 0.8rem; border-top: 1px solid #222222; margin-top: 2rem; }
-  footer a { color: #C50000; text-decoration: none; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1rem; }
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: '';
+    position: absolute; inset: 0 0 auto 0; height: 520px;
+    background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(197, 0, 0, 0.2), transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  a { color: var(--accent-text); }
+  :focus-visible { outline: 2px solid var(--accent-text); outline-offset: 3px; border-radius: 4px; }
+
+  .skip { position: absolute; left: -999px; top: 0.5rem; background: var(--accent); color: #fff; padding: 0.5rem 0.9rem; border-radius: 6px; z-index: 10; }
+  .skip:focus { left: 0.5rem; }
+
+  .wrap { position: relative; z-index: 1; max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---------- top bar ---------- */
+  .topbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.4rem 0; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--text); }
+  .brand img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: center top; background: var(--accent); }
+  .brand-name { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .brand-name b { color: var(--accent-text); font-weight: 800; }
+  .topnav { display: flex; gap: 0.5rem; }
+  .topnav a {
+    color: var(--text-dim); text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    padding: 0.4rem 0.9rem; border: 1px solid var(--border); border-radius: 999px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .topnav a:hover { color: var(--text); border-color: var(--border-strong); }
+  .topnav a[aria-current="page"] { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 2.5rem 0 1.75rem; }
+  .eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent-text); margin-bottom: 0.9rem; }
+  h1 { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 6vw, 3.6rem); line-height: 1.02; text-transform: uppercase; letter-spacing: 0.02em; text-wrap: balance; }
+  .lede { color: var(--text-dim); max-width: 60ch; margin-top: 1rem; font-size: 1.05rem; }
+  .lede code { font-family: var(--font-mono); color: var(--text); font-size: 0.95em; }
+
+  /* ---------- controls ---------- */
+  .controls { padding: 0.9rem 0; }
+  @media (min-height: 820px) and (min-width: 700px) {
+    .controls { position: sticky; top: 0; z-index: 5; background: linear-gradient(var(--bg) 82%, transparent); }
+  }
+  .search { display: block; position: relative; }
+  .search input {
+    width: 100%; font: inherit; font-size: 1rem; color: var(--text);
+    background: var(--panel); border: 1px solid var(--border); border-radius: 999px;
+    padding: 0.8rem 1.1rem 0.8rem 2.9rem;
+  }
+  .search input::placeholder { color: var(--text-dim); }
+  .search input:focus-visible { outline: 2px solid var(--accent-text); outline-offset: 2px; border-color: transparent; }
+  .search svg { position: absolute; left: 1.05rem; top: 50%; translate: 0 -50%; width: 18px; height: 18px; stroke: var(--text-dim); fill: none; stroke-width: 2; pointer-events: none; }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.8rem; }
+  .pill {
+    font: inherit; font-size: 0.85rem; font-weight: 500; cursor: pointer;
+    color: var(--text-dim); background: transparent;
+    border: 1px solid var(--border); border-radius: 999px; padding: 0.4rem 0.95rem;
+    transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  }
+  .pill:hover { color: var(--text); border-color: var(--border-strong); }
+  .pill[aria-pressed="true"] { color: #fff; background: var(--accent); border-color: var(--accent); }
+
+  .status { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 0.9rem; font-size: 0.85rem; color: var(--text-dim); }
+  .legend { display: flex; gap: 0.75rem; align-items: center; }
+
+  /* ---------- sections ---------- */
+  main { padding-bottom: 3rem; }
+  .section { padding-top: 2.4rem; }
+  .section[hidden] { display: none; }
+  .section-title { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-transform: uppercase; letter-spacing: 0.05em; text-wrap: balance; }
+  .section-blurb { color: var(--text-dim); margin-top: 0.3rem; max-width: 62ch; }
+  .cmd-grid { list-style: none; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 0.65rem; margin-top: 1rem; }
+  .cmd {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+    padding: 0.85rem 1rem 0.95rem; display: flex; flex-direction: column; gap: 0.4rem;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .cmd:hover { background: var(--panel-hover); border-color: var(--border-strong); }
+  .cmd[hidden] { display: none; }
+  .cmd-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.45rem; }
+  .cmd-name { font-family: var(--font-mono); font-weight: 600; font-size: 0.9rem; color: var(--accent-text); overflow-wrap: anywhere; }
+  .or { color: var(--text-dim); font-size: 0.85rem; }
+  .cmd-desc { color: var(--text-dim); font-size: 0.9rem; max-width: 60ch; }
+  .tag { margin-left: auto; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.15rem 0.55rem; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+  .tag-mod { color: var(--mod); background: var(--mod-soft); border-color: rgba(255, 196, 107, 0.35); }
+  .tag-streamer { color: var(--accent-text); background: var(--accent-soft); border-color: rgba(255, 90, 90, 0.4); }
+
+  .empty { display: none; margin: 3rem 0 0; padding: 2rem; text-align: center; border: 1px dashed var(--border-strong); border-radius: 10px; color: var(--text-dim); }
+  .empty.show { display: block; }
+
+  footer { border-top: 1px solid var(--border); padding: 1.75rem 0 2.5rem; color: var(--text-dim); font-size: 0.85rem; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 0.6rem 1.5rem; justify-content: space-between; align-items: center; }
+  footer img { width: 18px; height: 18px; border-radius: 50%; vertical-align: middle; margin-right: 0.3rem; }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 0 1rem; }
+    .hero { padding-top: 1.5rem; }
+    .topbar { padding: 1rem 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <img src="assets/avatar.png" style="width:48px;height:48px;border-radius:50%;object-fit:cover;object-position:center top;">
-  <div>
-    <h1>COOP<span style="color:#C50000;">GG</span></h1>
-    <span>Stream Commands &amp; Info</span>
-  </div>
-</header>
-<main>
+<a class="skip" href="#commands">Skip to commands</a>
 
-  <div class="section-title">AI Commands</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!lurk / !brb</span><span class="cmd-desc">Let the stream know you're lurking or stepping away. The bot sends you off in style.</span><span class="cmd-tag tag-ai">AI</span></div>
-    <div class="cmd"><span class="cmd-name">!so @user</span><span class="cmd-desc">Give an AI-generated shoutout to another streamer.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-ai">AI</span></div>
-    <div class="cmd"><span class="cmd-name">@CoopGPT</span><span class="cmd-desc">Mention the bot in chat and it will respond to you directly.</span><span class="cmd-tag tag-ai">AI</span></div>
-    <div class="cmd"><span class="cmd-name">!8ball [question]</span><span class="cmd-desc">Ask the magic 8ball a question. Context-aware answers every time.</span><span class="cmd-tag tag-ai">AI</span></div>
-    <div class="cmd"><span class="cmd-name">I'm Here (Channel Point)</span><span class="cmd-desc">Redeem to get an AI in-universe response from CoopGPT acknowledging your presence.</span><span class="cmd-tag tag-ai">AI</span></div>
-  </div>
+<div class="wrap">
+  <header class="topbar">
+    <a class="brand" href="https://www.twitch.tv/coopgg_">
+      <img src="assets/avatar.png" alt="">
+      <span class="brand-name">Coop<b>GG</b></span>
+    </a>
+    <nav class="topnav" aria-label="Site">
+      <a href="commands.html" aria-current="page">Commands</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="links.html">Links</a>
+    </nav>
+  </header>
 
-  <div class="section-title">Chat Games</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!trivia</span><span class="cmd-desc">AI trivia round — answer A, B, C, or D. 30 seconds. Coins to winners.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!riddle</span><span class="cmd-desc">Classic riddle from a curated bank. Fuzzy matching — close answers count!</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!20q</span><span class="cmd-desc">20 Questions — AI picks an Animal, Place, Famous Person, or Object. Use !ask and !guess to play.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!capitals</span><span class="cmd-desc">US state capitals quiz — answer A, B, C, or D. Coins to winners.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!cyoa</span><span class="cmd-desc">Chat-driven Choose Your Own Adventure. Vote 1, 2, or 3 on each story direction.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!quickmath</span><span class="cmd-desc">Solve a math expression before time runs out. Type the number answer.</span><span class="cmd-tag tag-game">Game</span></div>
-    <div class="cmd"><span class="cmd-name">!end20q</span><span class="cmd-desc">End an active 20 Questions game early.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!chuck / !chucknorris</span><span class="cmd-desc">Get a random Chuck Norris fact. RIP legend.</span></div>
-    <div class="cmd"><span class="cmd-name">!funfact</span><span class="cmd-desc">Get a random fun fact from the internet.</span></div>
-    <div class="cmd"><span class="cmd-name">!dadjoke</span><span class="cmd-desc">Get a random dad joke. You've been warned.</span></div>
-  </div>
+  <section class="hero">
+    <p class="eyebrow">Stream commands</p>
+    <h1>Everything you can type in chat</h1>
+    <p class="lede">Type any of these in the Twitch chat at <a href="https://www.twitch.tv/coopgg_">twitch.tv/coopgg_</a>. Things in <code>[brackets]</code> are optional. Commands marked Mods only work for moderators.</p>
+  </section>
 
-  <div class="section-title">Social Commands</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!cookie [@user]</span><span class="cmd-desc">Give someone a cookie. Omit the name for a random target.</span></div>
-    <div class="cmd"><span class="cmd-name">!slap [@user]</span><span class="cmd-desc">Slap someone with a random object.</span></div>
-    <div class="cmd"><span class="cmd-name">!hug [@user]</span><span class="cmd-desc">Wholesome hugs for everyone.</span></div>
-    <div class="cmd"><span class="cmd-name">!fart [@user]</span><span class="cmd-desc">You know what this does.</span></div>
-    <div class="cmd"><span class="cmd-name">!corner [@user]</span><span class="cmd-desc">Send someone to the corner with a reason.</span></div>
-    <div class="cmd"><span class="cmd-name">!ban [@user]</span><span class="cmd-desc">Fake ban with a generated duration and reason. Not a real ban!</span></div>
+  <div class="controls">
+    <label class="search">
+      <span class="visually-hidden">Search commands</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5" stroke-linecap="round"/></svg>
+      <input id="q" type="search" placeholder="Search commands" autocomplete="off">
+    </label>
+    <div class="pills" id="pills" role="group" aria-label="Filter by category">
+      <button type="button" class="pill" data-cat="all" aria-pressed="true">All</button>
+      <button type="button" class="pill" data-cat="info" aria-pressed="false">Stream Info</button><button type="button" class="pill" data-cat="support" aria-pressed="false">Support and Socials</button><button type="button" class="pill" data-cat="gear" aria-pressed="false">Gear and Partners</button><button type="button" class="pill" data-cat="destiny" aria-pressed="false">Destiny 2</button><button type="button" class="pill" data-cat="marathon" aria-pressed="false">Marathon</button><button type="button" class="pill" data-cat="ai" aria-pressed="false">CoopGPT and Chat Fun</button><button type="button" class="pill" data-cat="games" aria-pressed="false">Chat Games</button><button type="button" class="pill" data-cat="coins" aria-pressed="false">GPT Coins</button><button type="button" class="pill" data-cat="pokemon" aria-pressed="false">Pokémon</button><button type="button" class="pill" data-cat="community" aria-pressed="false">Community Events</button><button type="button" class="pill" data-cat="quotes" aria-pressed="false">Quotes and Music</button><button type="button" class="pill" data-cat="mods" aria-pressed="false">Moderators</button>
+    </div>
+    <div class="status">
+      <span id="count" role="status" aria-live="polite"></span>
+      <span class="legend"><span class="tag tag-mod">Mods</span><span class="tag tag-streamer">Streamer</span></span>
+    </div>
   </div>
 
-  <div class="section-title">Currency — GPT Coins</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!balance</span><span class="cmd-desc">Check your current GPT Coins balance.</span></div>
-    <div class="cmd"><span class="cmd-name">!give @user [amount]</span><span class="cmd-desc">Gift GPT Coins to another viewer.</span></div>
-    <div class="cmd"><span class="cmd-name">!gamble [amount]</span><span class="cmd-desc">Spin the slot machine. Win up to 20x your bet.</span></div>
-    <div class="cmd"><span class="cmd-name">!heist [amount]</span><span class="cmd-desc">Start a crew heist. 60s for others to join. AI story on resolution.</span></div>
-    <div class="cmd"><span class="cmd-name">!heistjoin [amount]</span><span class="cmd-desc">Join an active heist with your bet.</span></div>
-    <div class="cmd"><span class="cmd-name">!leaderboard</span><span class="cmd-desc">See the top 5 GPT Coin holders.</span></div>
-    <div class="cmd"><span class="cmd-name">!earncoins</span><span class="cmd-desc">Learn how to earn GPT Coins.</span></div>
-    <div class="cmd"><span class="cmd-name">!addCoins @user [amount]</span><span class="cmd-desc">Add coins to a viewer's balance.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!setCoins @user [amount]</span><span class="cmd-desc">Set a viewer's balance to a specific amount.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!resetAllCoins</span><span class="cmd-desc">Reset every viewer's balance to zero.</span><span class="cmd-tag tag-broadcaster">Broadcaster</span></div>
-  </div>
+  <main id="commands">
+<section class="section" id="info" data-cat="info"><h2 class="section-title">Stream Info</h2><p class="section-blurb">What is on, when, and how long you have been around.</p><ul class="cmd-grid"><li class="cmd" data-search="!schedule when the stream is live: monday, tuesday and wednesday, 9 pm to 1 am eastern."><div class="cmd-head"><code class="cmd-name">!schedule</code></div><p class="cmd-desc">When the stream is live: Monday, Tuesday and Wednesday, 9 PM to 1 AM Eastern.</p></li><li class="cmd" data-search="!game the game being played right now."><div class="cmd-head"><code class="cmd-name">!game</code></div><p class="cmd-desc">The game being played right now.</p></li><li class="cmd" data-search="!uptime how long the stream has been live."><div class="cmd-head"><code class="cmd-name">!uptime</code></div><p class="cmd-desc">How long the stream has been live.</p></li><li class="cmd" data-search="!followage [@user] !followtime how long you (or someone you name) have been following the channel."><div class="cmd-head"><code class="cmd-name">!followage [@user]</code> <span class="or">/</span> <code class="cmd-name">!followtime</code></div><p class="cmd-desc">How long you (or someone you name) have been following the channel.</p></li><li class="cmd" data-search="!watchtime [@user] how long you have watched while the stream was live, and where you rank among viewers. counting began when the feature was turned on."><div class="cmd-head"><code class="cmd-name">!watchtime [@user]</code></div><p class="cmd-desc">How long you have watched while the stream was live, and where you rank among viewers. Counting began when the feature was turned on.</p></li><li class="cmd" data-search="!followers how many followers the channel has."><div class="cmd-head"><code class="cmd-name">!followers</code></div><p class="cmd-desc">How many followers the channel has.</p></li><li class="cmd" data-search="!welcome the welcome message for new arrivals."><div class="cmd-head"><code class="cmd-name">!welcome</code></div><p class="cmd-desc">The welcome message for new arrivals.</p></li><li class="cmd" data-search="!help how to ask for help in game, and what to expect."><div class="cmd-head"><code class="cmd-name">!help</code></div><p class="cmd-desc">How to ask for help in game, and what to expect.</p></li><li class="cmd" data-search="!commands link to this page."><div class="cmd-head"><code class="cmd-name">!commands</code></div><p class="cmd-desc">Link to this page.</p></li><li class="cmd" data-search="!coopgpt a short tour of the bot: games, coins and social commands."><div class="cmd-head"><code class="cmd-name">!CoopGPT</code></div><p class="cmd-desc">A short tour of the bot: games, coins and social commands.</p></li></ul></section>
+<section class="section" id="support" data-cat="support"><h2 class="section-title">Support and Socials</h2><p class="section-blurb">Ways to help the channel and find me elsewhere.</p><ul class="cmd-grid"><li class="cmd" data-search="!sub how to subscribe, and what it gets you."><div class="cmd-head"><code class="cmd-name">!sub</code></div><p class="cmd-desc">How to subscribe, and what it gets you.</p></li><li class="cmd" data-search="!subs how many people are subscribed right now."><div class="cmd-head"><code class="cmd-name">!subs</code></div><p class="cmd-desc">How many people are subscribed right now.</p></li><li class="cmd" data-search="!support the easiest ways to support the stream."><div class="cmd-head"><code class="cmd-name">!support</code></div><p class="cmd-desc">The easiest ways to support the stream.</p></li><li class="cmd" data-search="!prime how to use twitch prime to subscribe for free."><div class="cmd-head"><code class="cmd-name">!prime</code></div><p class="cmd-desc">How to use Twitch Prime to subscribe for free.</p></li><li class="cmd" data-search="!tip tip link on ko-fi. never required."><div class="cmd-head"><code class="cmd-name">!tip</code></div><p class="cmd-desc">Tip link on Ko-fi. Never required.</p></li><li class="cmd" data-search="!discord invite link to the discord server."><div class="cmd-head"><code class="cmd-name">!discord</code></div><p class="cmd-desc">Invite link to the Discord server.</p></li><li class="cmd" data-search="!youtube link to the youtube channel."><div class="cmd-head"><code class="cmd-name">!youtube</code></div><p class="cmd-desc">Link to the YouTube channel.</p></li><li class="cmd" data-search="!twitter link to my account on x."><div class="cmd-head"><code class="cmd-name">!twitter</code></div><p class="cmd-desc">Link to my account on X.</p></li><li class="cmd" data-search="!socials every link in one place."><div class="cmd-head"><code class="cmd-name">!socials</code></div><p class="cmd-desc">Every link in one place.</p></li><li class="cmd" data-search="!clips clip a great moment to help me find it later."><div class="cmd-head"><code class="cmd-name">!clips</code></div><p class="cmd-desc">Clip a great moment to help me find it later.</p></li><li class="cmd" data-search="!mod link to the moderator application form."><div class="cmd-head"><code class="cmd-name">!mod</code></div><p class="cmd-desc">Link to the moderator application form.</p></li></ul></section>
+<section class="section" id="gear" data-cat="gear"><h2 class="section-title">Gear and Partners</h2><p class="section-blurb">What I play on, and the partners I use.</p><ul class="cmd-grid"><li class="cmd" data-search="!specs !newpc the parts list for the streaming pc."><div class="cmd-head"><code class="cmd-name">!specs</code> <span class="or">/</span> <code class="cmd-name">!newpc</code></div><p class="cmd-desc">The parts list for the streaming PC.</p></li><li class="cmd" data-search="!sens my mouse and keyboard sensitivity settings for marathon and destiny 2."><div class="cmd-head"><code class="cmd-name">!sens</code></div><p class="cmd-desc">My mouse and keyboard sensitivity settings for Marathon and Destiny 2.</p></li><li class="cmd" data-search="!starforge starforge systems pcs, with my link."><div class="cmd-head"><code class="cmd-name">!starforge</code></div><p class="cmd-desc">Starforge Systems PCs, with my link.</p></li><li class="cmd" data-search="!gmg green man gaming, with my link."><div class="cmd-head"><code class="cmd-name">!gmg</code></div><p class="cmd-desc">Green Man Gaming, with my link.</p></li><li class="cmd" data-search="!nerd overlays and alerts from nerdordie, with my referral link."><div class="cmd-head"><code class="cmd-name">!nerd</code></div><p class="cmd-desc">Overlays and alerts from NerdOrDie, with my referral link.</p></li><li class="cmd" data-search="!duke veteran-owned products, with my link."><div class="cmd-head"><code class="cmd-name">!duke</code></div><p class="cmd-desc">Veteran-owned products, with my link.</p></li><li class="cmd" data-search="!rallyflag rally flag: tools for destiny 2 runs, plus the clan discord."><div class="cmd-head"><code class="cmd-name">!rallyflag</code></div><p class="cmd-desc">Rally Flag: tools for Destiny 2 runs, plus the clan Discord.</p></li></ul></section>
+<section class="section" id="destiny" data-cat="destiny"><h2 class="section-title">Destiny 2</h2><p class="section-blurb">Builds, trackers and help for Guardians.</p><ul class="cmd-grid"><li class="cmd" data-search="!build the build i am running."><div class="cmd-head"><code class="cmd-name">!build</code></div><p class="cmd-desc">The build I am running.</p></li><li class="cmd" data-search="!kinetic !energy !heavy the weapon i have equipped in that slot."><div class="cmd-head"><code class="cmd-name">!kinetic</code> <span class="or">/</span> <code class="cmd-name">!energy</code> <span class="or">/</span> <code class="cmd-name">!heavy</code></div><p class="cmd-desc">The weapon I have equipped in that slot.</p></li><li class="cmd" data-search="!subclass the subclass i am playing."><div class="cmd-head"><code class="cmd-name">!subclass</code></div><p class="cmd-desc">The subclass I am playing.</p></li><li class="cmd" data-search="!xur where xur is and what he is selling."><div class="cmd-head"><code class="cmd-name">!xur</code></div><p class="cmd-desc">Where Xur is and what he is selling.</p></li><li class="cmd" data-search="!tid what is happening in destiny today."><div class="cmd-head"><code class="cmd-name">!tid</code></div><p class="cmd-desc">What is happening in Destiny today.</p></li><li class="cmd" data-search="!nf this week&#x27;s grandmaster nightfall details."><div class="cmd-head"><code class="cmd-name">!nf</code></div><p class="cmd-desc">This week&#x27;s Grandmaster Nightfall details.</p></li><li class="cmd" data-search="!trials trials report."><div class="cmd-head"><code class="cmd-name">!trials</code></div><p class="cmd-desc">Trials Report.</p></li><li class="cmd" data-search="!rr !dr !gmr my raid report, dungeon report and grandmaster report."><div class="cmd-head"><code class="cmd-name">!rr</code> <span class="or">/</span> <code class="cmd-name">!dr</code> <span class="or">/</span> <code class="cmd-name">!gmr</code></div><p class="cmd-desc">My Raid Report, Dungeon Report and Grandmaster report.</p></li><li class="cmd" data-search="!prep a checklist for getting ready for the next season."><div class="cmd-head"><code class="cmd-name">!prep</code></div><p class="cmd-desc">A checklist for getting ready for the next season.</p></li><li class="cmd" data-search="!gm what you need before joining me for a grandmaster: follow, and be at the required power."><div class="cmd-head"><code class="cmd-name">!gm</code></div><p class="cmd-desc">What you need before joining me for a Grandmaster: follow, and be at the required power.</p></li><li class="cmd" data-search="!sherpa need a raid, dungeon or grandmaster done? ask in the discord."><div class="cmd-head"><code class="cmd-name">!sherpa</code></div><p class="cmd-desc">Need a raid, dungeon or Grandmaster done? Ask in the Discord.</p></li><li class="cmd" data-search="!id !join how to add me in game so we can play together."><div class="cmd-head"><code class="cmd-name">!id</code> <span class="or">/</span> <code class="cmd-name">!join</code></div><p class="cmd-desc">How to add me in game so we can play together.</p></li><li class="cmd" data-search="!redeem active bungie codes and where to redeem them."><div class="cmd-head"><code class="cmd-name">!redeem</code></div><p class="cmd-desc">Active Bungie codes and where to redeem them.</p></li><li class="cmd" data-search="!d2deal a discount on the final shape for pc, with my referral link."><div class="cmd-head"><code class="cmd-name">!d2deal</code></div><p class="cmd-desc">A discount on The Final Shape for PC, with my referral link.</p></li><li class="cmd" data-search="!div hand out the div legend title. joke command."><div class="cmd-head"><code class="cmd-name">!div</code></div><p class="cmd-desc">Hand out the Div Legend title. Joke command.</p></li><li class="cmd" data-search="!chaos bits and sub tiers that let chat mess with my destiny 2 character, from a crouch up to deleting a character."><div class="cmd-head"><code class="cmd-name">!chaos</code></div><p class="cmd-desc">Bits and sub tiers that let chat mess with my Destiny 2 character, from a crouch up to deleting a character.</p></li><li class="cmd" data-search="!delete used by a donor who unlocked character deletion. pick which class goes."><div class="cmd-head"><code class="cmd-name">!delete</code></div><p class="cmd-desc">Used by a donor who unlocked character deletion. Pick which class goes.</p></li></ul></section>
+<section class="section" id="marathon" data-cat="marathon"><h2 class="section-title">Marathon</h2><ul class="cmd-grid"><li class="cmd" data-search="!marathon what the game is and why we are playing it."><div class="cmd-head"><code class="cmd-name">!marathon</code></div><p class="cmd-desc">What the game is and why we are playing it.</p></li><li class="cmd" data-search="!goal what a marathon run is about: drop in, grab the loot and reach extraction."><div class="cmd-head"><code class="cmd-name">!goal</code></div><p class="cmd-desc">What a Marathon run is about: drop in, grab the loot and reach extraction.</p></li></ul></section>
+<section class="section" id="ai" data-cat="ai"><h2 class="section-title">CoopGPT and Chat Fun</h2><p class="section-blurb">The bot answers when you mention it, and plays along with these.</p><ul class="cmd-grid"><li class="cmd" data-search="@coopgpt [message] mention the bot in chat and it replies to you."><div class="cmd-head"><code class="cmd-name">@CoopGPT [message]</code></div><p class="cmd-desc">Mention the bot in chat and it replies to you.</p></li><li class="cmd" data-search="!lurk !brb let chat know you are away. the bot sends you off in style."><div class="cmd-head"><code class="cmd-name">!lurk</code> <span class="or">/</span> <code class="cmd-name">!brb</code></div><p class="cmd-desc">Let chat know you are away. The bot sends you off in style.</p></li><li class="cmd" data-search="!8ball [question] ask the magic 8 ball."><div class="cmd-head"><code class="cmd-name">!8ball [question]</code></div><p class="cmd-desc">Ask the magic 8 ball.</p></li><li class="cmd" data-search="!towerthought a shower thought, destiny flavored."><div class="cmd-head"><code class="cmd-name">!towerthought</code></div><p class="cmd-desc">A shower thought, Destiny flavored.</p></li><li class="cmd" data-search="!roast [@user] a playful roast. leave the name off and a random viewer gets it."><div class="cmd-head"><code class="cmd-name">!roast [@user]</code></div><p class="cmd-desc">A playful roast. Leave the name off and a random viewer gets it.</p></li><li class="cmd" data-search="!ship @user [@user] a friendship compatibility score for two chatters. the same pair always gets the same score."><div class="cmd-head"><code class="cmd-name">!ship @user [@user]</code></div><p class="cmd-desc">A friendship compatibility score for two chatters. The same pair always gets the same score.</p></li><li class="cmd" data-search="!fortune your fortune-cookie fortune, with a lucky number."><div class="cmd-head"><code class="cmd-name">!fortune</code></div><p class="cmd-desc">Your fortune-cookie fortune, with a lucky number.</p></li><li class="cmd" data-search="!cookie !slap !hug !fart !corner !ban aim it at a chatter with an @name, or leave it off for a random one. the ban is fake. nobody is actually banned."><div class="cmd-head"><code class="cmd-name">!cookie</code> <span class="or">/</span> <code class="cmd-name">!slap</code> <span class="or">/</span> <code class="cmd-name">!hug</code> <span class="or">/</span> <code class="cmd-name">!fart</code> <span class="or">/</span> <code class="cmd-name">!corner</code> <span class="or">/</span> <code class="cmd-name">!ban</code></div><p class="cmd-desc">Aim it at a chatter with an @name, or leave it off for a random one. The ban is fake. Nobody is actually banned.</p></li><li class="cmd" data-search="!hbd [@user] !happybirthday wish a happy birthday to someone."><div class="cmd-head"><code class="cmd-name">!HBD [@user]</code> <span class="or">/</span> <code class="cmd-name">!HappyBirthday</code></div><p class="cmd-desc">Wish a happy birthday to someone.</p></li><li class="cmd" data-search="!dadjoke a random dad joke."><div class="cmd-head"><code class="cmd-name">!dadjoke</code></div><p class="cmd-desc">A random dad joke.</p></li><li class="cmd" data-search="!chuck !chucknorris a random chuck norris fact."><div class="cmd-head"><code class="cmd-name">!chuck</code> <span class="or">/</span> <code class="cmd-name">!chucknorris</code></div><p class="cmd-desc">A random Chuck Norris fact.</p></li><li class="cmd" data-search="!funfact a random fun fact."><div class="cmd-head"><code class="cmd-name">!funfact</code></div><p class="cmd-desc">A random fun fact.</p></li><li class="cmd" data-search="!cracked !dialed !pp random silly meters. purely for laughs."><div class="cmd-head"><code class="cmd-name">!cracked</code> <span class="or">/</span> <code class="cmd-name">!dialed</code> <span class="or">/</span> <code class="cmd-name">!pp</code></div><p class="cmd-desc">Random silly meters. Purely for laughs.</p></li><li class="cmd" data-search="!hype !party !love !angy !banger !rip !tableflip emote walls for the moment."><div class="cmd-head"><code class="cmd-name">!hype</code> <span class="or">/</span> <code class="cmd-name">!party</code> <span class="or">/</span> <code class="cmd-name">!love</code> <span class="or">/</span> <code class="cmd-name">!angy</code> <span class="or">/</span> <code class="cmd-name">!banger</code> <span class="or">/</span> <code class="cmd-name">!rip</code> <span class="or">/</span> <code class="cmd-name">!tableflip</code></div><p class="cmd-desc">Emote walls for the moment.</p></li></ul></section>
+<section class="section" id="games" data-cat="games"><h2 class="section-title">Chat Games</h2><p class="section-blurb">Quick games anyone can join. Winners earn GPT Coins.</p><ul class="cmd-grid"><li class="cmd" data-search="!trivia multiple choice trivia. answer a, b, c or d within 30 seconds."><div class="cmd-head"><code class="cmd-name">!trivia</code></div><p class="cmd-desc">Multiple choice trivia. Answer A, B, C or D within 30 seconds.</p></li><li class="cmd" data-search="!riddle a riddle to solve. close answers count."><div class="cmd-head"><code class="cmd-name">!riddle</code></div><p class="cmd-desc">A riddle to solve. Close answers count.</p></li><li class="cmd" data-search="!quickmath solve the math problem before time runs out."><div class="cmd-head"><code class="cmd-name">!quickmath</code></div><p class="cmd-desc">Solve the math problem before time runs out.</p></li><li class="cmd" data-search="!capitals us state capitals quiz. answer a, b, c or d."><div class="cmd-head"><code class="cmd-name">!capitals</code></div><p class="cmd-desc">US state capitals quiz. Answer A, B, C or D.</p></li><li class="cmd" data-search="!madlib everyone adds words to build a mad lib. contributors earn coins."><div class="cmd-head"><code class="cmd-name">!madlib</code></div><p class="cmd-desc">Everyone adds words to build a Mad Lib. Contributors earn coins.</p></li><li class="cmd" data-search="!cyoa choose your own adventure. vote 1, 2 or 3 to steer the story."><div class="cmd-head"><code class="cmd-name">!cyoa</code></div><p class="cmd-desc">Choose Your Own Adventure. Vote 1, 2 or 3 to steer the story.</p></li><li class="cmd" data-search="!20q 20 questions: the bot picks something and chat asks yes or no questions."><div class="cmd-head"><code class="cmd-name">!20q</code></div><p class="cmd-desc">20 Questions: the bot picks something and chat asks yes or no questions.</p></li><li class="cmd" data-search="!ask [question] !guess [answer] how you play 20 questions: ask a question, or make a guess."><div class="cmd-head"><code class="cmd-name">!ask [question]</code> <span class="or">/</span> <code class="cmd-name">!guess [answer]</code></div><p class="cmd-desc">How you play 20 Questions: ask a question, or make a guess.</p></li><li class="cmd" data-search="!end20q end a 20 questions game early."><div class="cmd-head"><code class="cmd-name">!end20q</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">End a 20 Questions game early.</p></li></ul></section>
+<section class="section" id="coins" data-cat="coins"><h2 class="section-title">GPT Coins</h2><p class="section-blurb">The channel currency. Earn it by watching, chatting and winning games.</p><ul class="cmd-grid"><li class="cmd" data-search="!balance your gpt coins balance."><div class="cmd-head"><code class="cmd-name">!balance</code></div><p class="cmd-desc">Your GPT Coins balance.</p></li><li class="cmd" data-search="!leaderboard the top coin holders."><div class="cmd-head"><code class="cmd-name">!leaderboard</code></div><p class="cmd-desc">The top coin holders.</p></li><li class="cmd" data-search="!earncoins every way to earn coins."><div class="cmd-head"><code class="cmd-name">!earnCoins</code></div><p class="cmd-desc">Every way to earn coins.</p></li><li class="cmd" data-search="!daily claim your daily coins. claiming on back-to-back days builds a streak bonus."><div class="cmd-head"><code class="cmd-name">!daily</code></div><p class="cmd-desc">Claim your daily coins. Claiming on back-to-back days builds a streak bonus.</p></li><li class="cmd" data-search="!give @user [amount] send some of your coins to another viewer."><div class="cmd-head"><code class="cmd-name">!give @user [amount]</code></div><p class="cmd-desc">Send some of your coins to another viewer.</p></li><li class="cmd" data-search="!gamble [amount] spin the slot machine with a bet. minimum 10 coins."><div class="cmd-head"><code class="cmd-name">!gamble [amount]</code></div><p class="cmd-desc">Spin the slot machine with a bet. Minimum 10 coins.</p></li><li class="cmd" data-search="!heist [amount] start a crew heist. others have 60 seconds to join with !heistjoin. half of heists succeed and pay double. heists also open during ad breaks with a 10,000 coin house bonus."><div class="cmd-head"><code class="cmd-name">!heist [amount]</code></div><p class="cmd-desc">Start a crew heist. Others have 60 seconds to join with !heistjoin. Half of heists succeed and pay double. Heists also open during ad breaks with a 10,000 coin house bonus.</p></li><li class="cmd" data-search="!heistjoin [amount] join a heist that is recruiting. minimum bet 100."><div class="cmd-head"><code class="cmd-name">!heistjoin [amount]</code></div><p class="cmd-desc">Join a heist that is recruiting. Minimum bet 100.</p></li><li class="cmd" data-search="!duel @user [amount] challenge someone for coins. they answer with !duel accept or !duel decline."><div class="cmd-head"><code class="cmd-name">!duel @user [amount]</code></div><p class="cmd-desc">Challenge someone for coins. They answer with !duel accept or !duel decline.</p></li><li class="cmd" data-search="!bet [option] [amount] bet on a running prediction."><div class="cmd-head"><code class="cmd-name">!bet [option] [amount]</code></div><p class="cmd-desc">Bet on a running prediction.</p></li><li class="cmd" data-search="!predict see the running prediction. mods start, lock and pay out predictions."><div class="cmd-head"><code class="cmd-name">!predict</code></div><p class="cmd-desc">See the running prediction. Mods start, lock and pay out predictions.</p></li><li class="cmd" data-search="!addcoins @user [amount] !setcoins @user [amount] add to, or set, a viewer&#x27;s balance."><div class="cmd-head"><code class="cmd-name">!addCoins @user [amount]</code> <span class="or">/</span> <code class="cmd-name">!setCoins @user [amount]</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Add to, or set, a viewer&#x27;s balance.</p></li><li class="cmd" data-search="!resetallcoins reset every balance to zero."><div class="cmd-head"><code class="cmd-name">!resetAllCoins</code><span class="tag tag-streamer">Streamer</span></div><p class="cmd-desc">Reset every balance to zero.</p></li></ul></section>
+<section class="section" id="pokemon" data-cat="pokemon"><h2 class="section-title">Pokémon</h2><p class="section-blurb">Catch them, collect them, trade them.</p><ul class="cmd-grid"><li class="cmd" data-search="!pokemon a wild pokémon appears. everyone gets a short window to throw a ball."><div class="cmd-head"><code class="cmd-name">!pokemon</code></div><p class="cmd-desc">A wild Pokémon appears. Everyone gets a short window to throw a ball.</p></li><li class="cmd" data-search="!pokeball [type] throw a ball. name a bought ball type for better odds."><div class="cmd-head"><code class="cmd-name">!pokeball [type]</code></div><p class="cmd-desc">Throw a ball. Name a bought ball type for better odds.</p></li><li class="cmd" data-search="!pokedex [@user] your catch count. add top for the leaderboard."><div class="cmd-head"><code class="cmd-name">!pokedex [@user]</code></div><p class="cmd-desc">Your catch count. Add top for the leaderboard.</p></li><li class="cmd" data-search="!pokebox [@user] the pokémon you own. add dupes to see spares."><div class="cmd-head"><code class="cmd-name">!pokebox [@user]</code></div><p class="cmd-desc">The Pokémon you own. Add dupes to see spares.</p></li><li class="cmd" data-search="!shop !buyball [type] [amount] !balls see ball prices, buy balls with coins, and check how many you have."><div class="cmd-head"><code class="cmd-name">!shop</code> <span class="or">/</span> <code class="cmd-name">!buyball [type] [amount]</code> <span class="or">/</span> <code class="cmd-name">!balls</code></div><p class="cmd-desc">See ball prices, buy balls with coins, and check how many you have.</p></li><li class="cmd" data-search="!trade @user [yours] for [theirs] offer a swap. they answer with !accept or !decline."><div class="cmd-head"><code class="cmd-name">!trade @user [yours] for [theirs]</code></div><p class="cmd-desc">Offer a swap. They answer with !accept or !decline.</p></li><li class="cmd" data-search="!accept !decline answer a trade offer."><div class="cmd-head"><code class="cmd-name">!accept</code> <span class="or">/</span> <code class="cmd-name">!decline</code></div><p class="cmd-desc">Answer a trade offer.</p></li><li class="cmd" data-search="!partner [name] pick a pokémon you own to show next to your name."><div class="cmd-head"><code class="cmd-name">!partner [name]</code></div><p class="cmd-desc">Pick a Pokémon you own to show next to your name.</p></li><li class="cmd" data-search="!sell [name] !release [name] sell spare copies for coins. you always keep one of each, and shinies are never sold."><div class="cmd-head"><code class="cmd-name">!sell [name]</code> <span class="or">/</span> <code class="cmd-name">!release [name]</code></div><p class="cmd-desc">Sell spare copies for coins. You always keep one of each, and shinies are never sold.</p></li><li class="cmd" data-search="!pokeevent is a special event, like shiny hour, running? mods can start or stop one."><div class="cmd-head"><code class="cmd-name">!pokeevent</code></div><p class="cmd-desc">Is a special event, like Shiny Hour, running? Mods can start or stop one.</p></li></ul></section>
+<section class="section" id="community" data-cat="community"><h2 class="section-title">Community Events</h2><p class="section-blurb">Things we do together.</p><ul class="cmd-grid"><li class="cmd" data-search="!boss check the boss: health, time left and top damage dealers. mods start the fight."><div class="cmd-head"><code class="cmd-name">!boss</code></div><p class="cmd-desc">Check the boss: health, time left and top damage dealers. Mods start the fight.</p></li><li class="cmd" data-search="!attack hit the boss. it costs coins, and everyone who swung shares the loot if it goes down."><div class="cmd-head"><code class="cmd-name">!attack</code></div><p class="cmd-desc">Hit the boss. It costs coins, and everyone who swung shares the loot if it goes down.</p></li><li class="cmd" data-search="!addme !removeme join or leave the queue to play with me."><div class="cmd-head"><code class="cmd-name">!addme</code> <span class="or">/</span> <code class="cmd-name">!removeme</code></div><p class="cmd-desc">Join or leave the queue to play with me.</p></li><li class="cmd" data-search="!queue !showplayers see who is in the queue and who is playing."><div class="cmd-head"><code class="cmd-name">!queue</code> <span class="or">/</span> <code class="cmd-name">!showplayers</code></div><p class="cmd-desc">See who is in the queue and who is playing.</p></li><li class="cmd" data-search="!enter enter the giveaway."><div class="cmd-head"><code class="cmd-name">!enter</code></div><p class="cmd-desc">Enter the giveaway.</p></li><li class="cmd" data-search="!enterraffle enter the raffle."><div class="cmd-head"><code class="cmd-name">!enterraffle</code></div><p class="cmd-desc">Enter the raffle.</p></li><li class="cmd" data-search="!rig !unrig !waffle joke commands that mess with the raffle. they change nothing."><div class="cmd-head"><code class="cmd-name">!rig</code> <span class="or">/</span> <code class="cmd-name">!unrig</code> <span class="or">/</span> <code class="cmd-name">!waffle</code></div><p class="cmd-desc">Joke commands that mess with the raffle. They change nothing.</p></li><li class="cmd" data-search="!birthday [month/day] save your birthday, show it, or remove it. month and day only. get a greeting and a coin gift on the day."><div class="cmd-head"><code class="cmd-name">!birthday [month/day]</code></div><p class="cmd-desc">Save your birthday, show it, or remove it. Month and day only. Get a greeting and a coin gift on the day.</p></li><li class="cmd" data-search="!vipdays how many days of timed vip you have left."><div class="cmd-head"><code class="cmd-name">!vipDays</code></div><p class="cmd-desc">How many days of timed VIP you have left.</p></li></ul></section>
+<section class="section" id="quotes" data-cat="quotes"><h2 class="section-title">Quotes and Music</h2><ul class="cmd-grid"><li class="cmd" data-search="!quote [#] a random stream quote, or a specific one by number."><div class="cmd-head"><code class="cmd-name">!quote [#]</code></div><p class="cmd-desc">A random stream quote, or a specific one by number.</p></li><li class="cmd" data-search="!quoteby [name] a random quote from one person. partial names work."><div class="cmd-head"><code class="cmd-name">!quoteby [name]</code></div><p class="cmd-desc">A random quote from one person. Partial names work.</p></li><li class="cmd" data-search="!quotecount how many quotes are saved."><div class="cmd-head"><code class="cmd-name">!quotecount</code></div><p class="cmd-desc">How many quotes are saved.</p></li><li class="cmd" data-search="!song the song playing right now."><div class="cmd-head"><code class="cmd-name">!song</code></div><p class="cmd-desc">The song playing right now.</p></li><li class="cmd" data-search="!music how to request or skip songs with channel points."><div class="cmd-head"><code class="cmd-name">!music</code></div><p class="cmd-desc">How to request or skip songs with channel points.</p></li><li class="cmd" data-search="!deaths how many times i have died this session."><div class="cmd-head"><code class="cmd-name">!deaths</code></div><p class="cmd-desc">How many times I have died this session.</p></li><li class="cmd" data-search="!ded another death. look at the number."><div class="cmd-head"><code class="cmd-name">!ded</code></div><p class="cmd-desc">Another death. Look at the number.</p></li></ul></section>
+<section class="section" id="mods" data-cat="mods"><h2 class="section-title">Moderators</h2><p class="section-blurb">These only work for moderators and the broadcaster.</p><ul class="cmd-grid"><li class="cmd" data-search="!so @user shout out another streamer, with their game and a custom message."><div class="cmd-head"><code class="cmd-name">!so @user</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Shout out another streamer, with their game and a custom message.</p></li><li class="cmd" data-search="!tso @user !kso @user play the shoutout pop-up on stream for a twitch (!tso) or kick (!kso) streamer."><div class="cmd-head"><code class="cmd-name">!tso @user</code> <span class="or">/</span> <code class="cmd-name">!kso @user</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Play the shoutout pop-up on stream for a Twitch (!tso) or Kick (!kso) streamer.</p></li><li class="cmd" data-search="!permit @user [seconds] let someone post links for a short time."><div class="cmd-head"><code class="cmd-name">!permit @user [seconds]</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Let someone post links for a short time.</p></li><li class="cmd" data-search="!strikes [@user] see who has chat strikes and what their next one costs."><div class="cmd-head"><code class="cmd-name">!strikes [@user]</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">See who has chat strikes and what their next one costs.</p></li><li class="cmd" data-search="!pardon @user [all] remove a strike after a mistake, or all of them."><div class="cmd-head"><code class="cmd-name">!pardon @user [all]</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Remove a strike after a mistake, or all of them.</p></li><li class="cmd" data-search="!settitle [title] !setgame [game] !updatetitle change the stream title or game, or have the bot write a fresh title."><div class="cmd-head"><code class="cmd-name">!settitle [title]</code> <span class="or">/</span> <code class="cmd-name">!setgame [game]</code> <span class="or">/</span> <code class="cmd-name">!updatetitle</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Change the stream title or game, or have the bot write a fresh title.</p></li><li class="cmd" data-search="!addquote [name] [text] !delquote [#] save or delete a quote."><div class="cmd-head"><code class="cmd-name">!addquote [name] [text]</code> <span class="or">/</span> <code class="cmd-name">!delquote [#]</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Save or delete a quote.</p></li><li class="cmd" data-search="!death !dead !resetdeaths add a death to the counter, or reset it."><div class="cmd-head"><code class="cmd-name">!death</code> <span class="or">/</span> <code class="cmd-name">!dead</code> <span class="or">/</span> <code class="cmd-name">!resetdeaths</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Add a death to the counter, or reset it.</p></li><li class="cmd" data-search="!startgiveaway [prize] !pickwinner !clearentries !giveawaystatus run a giveaway."><div class="cmd-head"><code class="cmd-name">!startgiveaway [prize]</code> <span class="or">/</span> <code class="cmd-name">!pickwinner</code> <span class="or">/</span> <code class="cmd-name">!clearentries</code> <span class="or">/</span> <code class="cmd-name">!giveawaystatus</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Run a giveaway.</p></li><li class="cmd" data-search="!startraffle !drawraffle !clearraffle !rafflestatus run a raffle."><div class="cmd-head"><code class="cmd-name">!startraffle</code> <span class="or">/</span> <code class="cmd-name">!drawraffle</code> <span class="or">/</span> <code class="cmd-name">!clearraffle</code> <span class="or">/</span> <code class="cmd-name">!rafflestatus</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Run a raffle.</p></li><li class="cmd" data-search="!addplayer !nextplayer !randomplayer !removeplayer !removeactive !replaceactive !clearplayers manage the play-with-viewers queue."><div class="cmd-head"><code class="cmd-name">!addplayer</code> <span class="or">/</span> <code class="cmd-name">!nextplayer</code> <span class="or">/</span> <code class="cmd-name">!randomplayer</code> <span class="or">/</span> <code class="cmd-name">!removeplayer</code> <span class="or">/</span> <code class="cmd-name">!removeactive</code> <span class="or">/</span> <code class="cmd-name">!replaceactive</code> <span class="or">/</span> <code class="cmd-name">!clearplayers</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Manage the play-with-viewers queue.</p></li><li class="cmd" data-search="!predict start !predict lock !predict win !predict cancel run a coin prediction."><div class="cmd-head"><code class="cmd-name">!predict start</code> <span class="or">/</span> <code class="cmd-name">!predict lock</code> <span class="or">/</span> <code class="cmd-name">!predict win</code> <span class="or">/</span> <code class="cmd-name">!predict cancel</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Run a coin prediction.</p></li><li class="cmd" data-search="!boss start [minutes] !boss stop start or call off a boss fight."><div class="cmd-head"><code class="cmd-name">!boss start [minutes]</code> <span class="or">/</span> <code class="cmd-name">!boss stop</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Start or call off a boss fight.</p></li><li class="cmd" data-search="!tempvip @user !adddays @user [n] !takevip @user !logvips manage timed vips."><div class="cmd-head"><code class="cmd-name">!tempVIP @user</code> <span class="or">/</span> <code class="cmd-name">!addDays @user [n]</code> <span class="or">/</span> <code class="cmd-name">!takeVIP @user</code> <span class="or">/</span> <code class="cmd-name">!logVIPs</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Manage timed VIPs.</p></li><li class="cmd" data-search="!setbirthday @user !clearbirthday @user !birthdays set, clear or list birthdays."><div class="cmd-head"><code class="cmd-name">!setbirthday @user</code> <span class="or">/</span> <code class="cmd-name">!clearbirthday @user</code> <span class="or">/</span> <code class="cmd-name">!birthdays</code><span class="tag tag-mod">Mods</span></div><p class="cmd-desc">Set, clear or list birthdays.</p></li><li class="cmd" data-search="!testalert test an alert on stream."><div class="cmd-head"><code class="cmd-name">!testalert</code><span class="tag tag-streamer">Streamer</span></div><p class="cmd-desc">Test an alert on stream.</p></li></ul></section>
 
-  <div class="section-title">Timed VIP</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">VIP (Channel Point)</span><span class="cmd-desc">Redeem to auto-grant VIP status for a configured number of days. Subs get more days.</span></div>
-    <div class="cmd"><span class="cmd-name">!vipDays</span><span class="cmd-desc">Check how many VIP days you have remaining.</span></div>
-    <div class="cmd"><span class="cmd-name">!tempvip @user</span><span class="cmd-desc">Manually grant timed VIP to a viewer.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!addDays @user [n]</span><span class="cmd-desc">Add days to a viewer's active VIP.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!takeVIP @user</span><span class="cmd-desc">Remove a timed VIP from a viewer.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!logVips</span><span class="cmd-desc">Log all currently active timed VIPs.</span><span class="cmd-tag tag-mod">Mods</span></div>
-  </div>
+    <p class="empty" id="empty">No commands match that search. Try a shorter word.</p>
+  </main>
+</div>
 
-  <div class="section-title">Playing With Viewers</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!addme</span><span class="cmd-desc">Add yourself to the play queue.</span></div>
-    <div class="cmd"><span class="cmd-name">!removeme</span><span class="cmd-desc">Remove yourself from the play queue.</span></div>
-    <div class="cmd"><span class="cmd-name">!queue / !showplayers</span><span class="cmd-desc">View the current queue and active players.</span></div>
-    <div class="cmd"><span class="cmd-name">!nextplayer</span><span class="cmd-desc">Pull the next viewer from the queue.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!randomplayer</span><span class="cmd-desc">Pull a random viewer from the queue.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!removeactive / !clearplayers</span><span class="cmd-desc">Remove or clear active players.</span><span class="cmd-tag tag-mod">Mods</span></div>
-  </div>
-
-  <div class="section-title">Raffle &amp; Giveaway</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!enterraffle</span><span class="cmd-desc">Enter an active raffle.</span></div>
-    <div class="cmd"><span class="cmd-name">!enter</span><span class="cmd-desc">Enter an active giveaway.</span></div>
-    <div class="cmd"><span class="cmd-name">!startraffle / !drawraffle / !clearraffle</span><span class="cmd-desc">Start, draw, or clear a raffle.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!startgiveaway [prize]</span><span class="cmd-desc">Start a giveaway with a prize name.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!pickwinner / !clearentries</span><span class="cmd-desc">Pick a winner with an AI announcement, or clear all entries.</span><span class="cmd-tag tag-mod">Mods</span></div>
-  </div>
-
-  <div class="section-title">Quotes</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!quote [#]</span><span class="cmd-desc">Get a random stream quote, or a specific one by number.</span></div>
-    <div class="cmd"><span class="cmd-name">!quoteby [name]</span><span class="cmd-desc">Get a random quote from a specific person. Partial names work!</span></div>
-    <div class="cmd"><span class="cmd-name">!quotecount</span><span class="cmd-desc">See how many quotes have been saved.</span></div>
-    <div class="cmd"><span class="cmd-name">!addquote [name] [text]</span><span class="cmd-desc">Save a quote to the database.</span><span class="cmd-tag tag-mod">Mods</span></div>
-    <div class="cmd"><span class="cmd-name">!delquote [#]</span><span class="cmd-desc">Delete a quote by number.</span><span class="cmd-tag tag-mod">Mods</span></div>
-  </div>
-
-  <div class="section-title">Stream Info</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!uptime</span><span class="cmd-desc">See how long the stream has been live.</span></div>
-    <div class="cmd"><span class="cmd-name">!followtime / !followage</span><span class="cmd-desc">See how long you've been following.</span></div>
-    <div class="cmd"><span class="cmd-name">!watchtime</span><span class="cmd-desc">See your total watch time on the channel.</span></div>
-    <div class="cmd"><span class="cmd-name">!game</span><span class="cmd-desc">See what game is currently being played.</span></div>
-    <div class="cmd"><span class="cmd-name">!schedule</span><span class="cmd-desc">See the stream schedule.</span></div>
-    <div class="cmd"><span class="cmd-name">!rules</span><span class="cmd-desc">View the channel rules.</span></div>
-    <div class="cmd"><span class="cmd-name">!coopgpt / !commands</span><span class="cmd-desc">Get the full command list.</span></div>
-  </div>
-
-  <div class="section-title">Socials</div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!discord</span><span class="cmd-desc">Get the Discord server invite link.</span></div>
-    <div class="cmd"><span class="cmd-name">!youtube</span><span class="cmd-desc">Find CoopGG on YouTube.</span></div>
-    <div class="cmd"><span class="cmd-name">!socials</span><span class="cmd-desc">All social links in one place.</span></div>
-    <div class="cmd"><span class="cmd-name">!sub</span><span class="cmd-desc">Support the stream with a sub!</span></div>
-    <div class="cmd"><span class="cmd-name">!merch</span><span class="cmd-desc">Check out the merch store.</span></div>
-    <div class="cmd"><span class="cmd-name">!setup</span><span class="cmd-desc">See the streaming setup and gear list.</span></div>
-    <div class="cmd"><span class="cmd-name">!sponsors</span><span class="cmd-desc">Sponsors and affiliate links.</span></div>
-  </div>
-
-  <div class="section-title">Spotify <span style="font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#0a1a0a;color:#4caf50;border:1px solid #4caf5044;text-transform:uppercase;letter-spacing:0.05em;vertical-align:middle;margin-left:0.4rem;">Optional Add-on</span></div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!song</span><span class="cmd-desc">Show the currently playing Spotify track.</span><span class="cmd-tag tag-optional">Optional</span></div>
-    <div class="cmd"><span class="cmd-name">Song Request (Channel Point)</span><span class="cmd-desc">Viewers redeem to queue a song by name.</span><span class="cmd-tag tag-optional">Optional</span></div>
-    <div class="cmd"><span class="cmd-name">Song Skip (Channel Point)</span><span class="cmd-desc">Viewers redeem to skip the current track.</span><span class="cmd-tag tag-optional">Optional</span></div>
-  </div>
-
-  <div class="section-title">Death Counter <span style="font-size:0.65rem;font-weight:700;padding:2px 6px;border-radius:3px;background:#0a1a0a;color:#4caf50;border:1px solid #4caf5044;text-transform:uppercase;letter-spacing:0.05em;vertical-align:middle;margin-left:0.4rem;">Optional Add-on</span></div>
-  <div class="cmd-grid">
-    <div class="cmd"><span class="cmd-name">!death / !dead</span><span class="cmd-desc">Increment the death count and post it to chat.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-optional">Optional</span></div>
-    <div class="cmd"><span class="cmd-name">!deaths</span><span class="cmd-desc">Check the current death count.</span><span class="cmd-tag tag-optional">Optional</span></div>
-    <div class="cmd"><span class="cmd-name">!resetdeaths</span><span class="cmd-desc">Reset the death counter to zero.</span><span class="cmd-tag tag-mod">Mods</span><span class="cmd-tag tag-optional">Optional</span></div>
-  </div>
-
-</main>
 <footer>
-  <p>© 2025 CoopGG · Built with <a href="https://coopgg.github.io/streamgpt-suite/index.html"><img src="assets/streamgpt-logo.png" alt="" style="width:18px;height:18px;border-radius:50%;vertical-align:middle;"> StreamGPT Suite</a></p>
+  <div class="wrap">
+    <span>&copy; 2026 CoopGG</span>
+    <span>Built with <a href="https://coopgg.github.io/streamgpt-suite/index.html"><img src="assets/streamgpt-logo.png" alt="">StreamGPT Suite</a></span>
+  </div>
 </footer>
+
+<script>
+(function () {
+  var input = document.getElementById('q');
+  var pills = document.getElementById('pills');
+  var countEl = document.getElementById('count');
+  var empty = document.getElementById('empty');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+  var cat = 'all';
+
+  function apply() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    sections.forEach(function (s) {
+      var inCat = cat === 'all' || s.dataset.cat === cat;
+      var any = 0;
+      Array.prototype.forEach.call(s.querySelectorAll('.cmd'), function (c) {
+        var ok = inCat && (!q || c.dataset.search.indexOf(q) !== -1);
+        c.hidden = !ok;
+        if (ok) any++;
+      });
+      s.hidden = any === 0;
+      shown += any;
+    });
+    empty.classList.toggle('show', shown === 0);
+    countEl.textContent = shown + (shown === 1 ? ' command' : ' commands');
+  }
+
+  function setCat(next, push) {
+    cat = next;
+    Array.prototype.forEach.call(pills.querySelectorAll('.pill'), function (p) {
+      p.setAttribute('aria-pressed', p.dataset.cat === cat ? 'true' : 'false');
+    });
+    if (push) {
+      try { history.replaceState(null, '', cat === 'all' ? location.pathname : '#' + cat); } catch (e) {}
+    }
+    apply();
+  }
+
+  pills.addEventListener('click', function (e) {
+    var b = e.target.closest('.pill');
+    if (b) setCat(b.dataset.cat, true);
+  });
+  input.addEventListener('input', apply);
+
+  var start = location.hash.replace('#', '');
+  var valid = sections.some(function (s) { return s.dataset.cat === start; });
+  setCat(valid ? start : 'all', false);
+})();
+</script>
 </body>
 </html>
