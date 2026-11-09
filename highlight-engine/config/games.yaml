@@ -1,0 +1,59 @@
+# Per-game detection settings.
+#
+# Boxes are FRACTIONS of the screen: [x, y, width, height], where 0,0 is the
+# top-left corner. Fractions mean the same box works for 720p, 1080p or 1440p VODs.
+#
+# The default boxes below are rough starting guesses. Your HUD scale, resolution
+# and HUD settings move things around, so run `calibrate` once per game on one of
+# your own VODs, then check the result with `snapshot`.
+#
+# Region modes:
+#   gamertag  Kill feed. A line where YOUR name is on the left (the killer side)
+#             counts as your kill. Your name on the right is your death.
+#   keywords  Pop-ups and medals. Any listed word that appears scores that many points.
+#             Use `ocr-debug` to see the exact wording your game shows, then add it here.
+
+gamertag: "YOUR_GAMERTAG"   # default for every game; override per game below
+
+games:
+  destiny2:
+    name: Destiny 2
+    # Twitch chapter / category titles that mean this game is on screen.
+    match: ["destiny 2", "destiny"]
+    sample_fps: 2         # kill feed lines stay up for several seconds; 2/s is enough
+    chain_gap: 6          # kills this close together become one clip (seconds)
+    pre_roll: 8           # seconds of lead-in before the first kill
+    post_roll: 3          # seconds kept after the last kill
+    regions:
+      killfeed:
+        # PvP (Crucible / Trials / Iron Banner / Gambit) kill feed, lower left.
+        box: [0.02, 0.60, 0.33, 0.20]
+        mode: gamertag
+        score: 1
+      medals:
+        # Crucible medal pop-ups. Fill in keywords after looking at `ocr-debug` output.
+        enabled: false
+        box: [0.35, 0.62, 0.30, 0.10]
+        mode: keywords
+        keywords: {}
+
+  warzone:
+    name: Call of Duty Warzone
+    match: ["warzone", "call of duty", "resurgence"]
+    # gamertag: "YourActivisionName"   # uncomment if it differs from your Destiny name
+    sample_fps: 2
+    chain_gap: 10         # Warzone fights last longer, so allow wider gaps
+    pre_roll: 8
+    post_roll: 3
+    regions:
+      killfeed:
+        box: [0.01, 0.55, 0.30, 0.20]
+        mode: gamertag
+        score: 1
+      elimination_popup:
+        # The pop-up near the center of the screen when YOU down or eliminate
+        # someone. Fill in the exact words from `ocr-debug`, e.g. {"eliminated": 1}.
+        enabled: false
+        box: [0.35, 0.58, 0.30, 0.10]
+        mode: keywords
+        keywords: {}
