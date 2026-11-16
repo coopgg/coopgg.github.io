@@ -1,4 +1,11 @@
-/* Clip.py pages: the site's shared look (../assets/site.css) plus long-form text. */
+/* Clip.py pages: the site's shared look (../assets/site.css) plus long-form text,
+   in Clip.py's own colour (Twitch purple, as on its icon) instead of the site red. */
+:root {
+  --accent: #9146ff;
+  --accent-text: #b98cff;      /* purple for text: readable on the page background */
+  --accent-soft: rgba(145, 70, 255, 0.16);
+}
+body::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, rgba(145, 70, 255, 0.22), transparent 70%); }
 .doc { padding: 1.5rem 0 1rem; }
 .doc h2 { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 2.2rem 0 0.7rem; }
 .doc p, .doc li { color: var(--text-dim); }
